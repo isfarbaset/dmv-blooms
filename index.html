@@ -232,15 +232,13 @@ body::before{
 }
 .tag-more{cursor:pointer;transition:background 0.2s,border-color 0.2s;}
 .tag-more:hover{background:var(--sage-light);border-color:var(--sage);color:var(--sage);}
-.tag-loc{position:relative;cursor:default;}
-.tag-loc .tag-preview{
-  display:none;position:absolute;bottom:calc(100% + 8px);left:50%;
-  transform:translateX(-50%);z-index:100;
+.tag-loc{cursor:default;}
+.tag-preview{
+  display:none;position:fixed;z-index:10000;
   width:240px;border-radius:var(--radius-sm);overflow:hidden;
   box-shadow:var(--shadow-lg);border:1px solid var(--border);
   background:var(--card);pointer-events:none;
 }
-.tag-loc:hover .tag-preview{display:block;}
 .tag-preview img{width:100%;height:140px;object-fit:cover;display:block;}
 .tag-preview-info{padding:8px 10px;font-size:0.72rem;color:var(--ink-light);line-height:1.4;}
 .tag-preview-name{font-weight:500;color:var(--ink);margin-bottom:2px;}
@@ -706,9 +704,34 @@ function setupFade(){
   document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
 }
 
+// TAG PREVIEW POSITIONING
+function setupTagPreviews(){
+  document.addEventListener('mouseenter',e=>{
+    const tag=e.target.closest('.tag-loc');
+    if(!tag)return;
+    const preview=tag.querySelector('.tag-preview');
+    if(!preview)return;
+    const r=tag.getBoundingClientRect();
+    preview.style.display='block';
+    let left=r.left+r.width/2-120;
+    let top=r.top-preview.offsetHeight-8;
+    if(top<8){top=r.bottom+8;}
+    if(left<8)left=8;
+    if(left+240>window.innerWidth-8)left=window.innerWidth-248;
+    preview.style.left=left+'px';
+    preview.style.top=top+'px';
+  },true);
+  document.addEventListener('mouseleave',e=>{
+    const tag=e.target.closest('.tag-loc');
+    if(!tag)return;
+    const preview=tag.querySelector('.tag-preview');
+    if(preview)preview.style.display='none';
+  },true);
+}
+
 // INIT
 document.addEventListener('DOMContentLoaded',()=>{
-  renderReco();renderNow();renderCalendar();renderMap();setupNav();setupFade();
+  renderReco();renderNow();renderCalendar();renderMap();setupNav();setupFade();setupTagPreviews();
 });
 </script>
 </body>
