@@ -652,7 +652,7 @@ function renderMap(){
     const mk=L.marker([loc.la,loc.ln],{icon}).addTo(map);
     mk.region=loc.r;mk.locData=loc;
     const fl=loc.fl.map(f=>`${emoji(f)} ${f}`).join(' · ');
-    mk.bindPopup(`<div class="pop"><h4>${loc.n}</h4><div class="pop-flowers">${fl}</div><div class="pop-desc">${loc.d}</div><span class="pop-st" style="background:${stColors[s]};color:${stTxt[s]}">${stLabel(s)}</span></div>`,{maxWidth:280});
+    mk.bindPopup(`<div class="pop">${loc.img?`<img src="${loc.img}" alt="${loc.n}" style="width:100%;height:140px;object-fit:cover;display:block;border-radius:var(--radius) var(--radius) 0 0;margin:-1.25rem -1.5rem 1rem;width:calc(100% + 3rem);" loading="lazy">`:''}<h4>${loc.n}</h4><div class="pop-flowers">${fl}</div><div class="pop-desc">${loc.d}</div><span class="pop-st" style="background:${stColors[s]};color:${stTxt[s]}">${stLabel(s)}</span></div>`,{maxWidth:280});
     markers.push(mk);
   });
 
