@@ -78,17 +78,19 @@ The `status()` function determines what's blooming based on the current month. C
 
 ---
 
+## Copyright
+
+DMV Blooms' code is made available to the public for transparency. Anyone may privately use and modify the source code, but cannot republish or redistribute the site, its design, or its content as their own. Don't clone this and put your name on it.
+
 ## Contributing
 
-Found a great bloom spot that's missing? Know a flower we should add? Open an issue or PR.
+Contributions are wholeheartedly welcome. I hope that in continuously improving this project, the internal reward is shared between contributors. Found a great bloom spot? Know a flower we should add? Open an issue or submit a PR. Note that PRs are up for discussion before merging and are not guaranteed to be incorporated.
 
 ---
 
 ## License
 
 Copyright © 2026 Isfar Baset. All rights reserved.
-
-This project is licensed under the [MIT License](LICENSE). You're free to use, modify, and share this code as long as you include the original copyright notice. If you'd like to build on it, I'd love for you to contribute back rather than fork and run with it separately. Open an issue or submit a PR - let's make it better together.
 
 ---
 
