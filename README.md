@@ -2,7 +2,7 @@
 
 **A seasonal field guide to the flowers of DC, Maryland & Virginia.**
 
-Live site: [dmvblooms.github.io](https://dmvblooms.github.io) *(update this URL after deploying)*
+Live site: [isfarbaset.github.io/dmv-blooms](https://isfarbaset.github.io/dmv-blooms)
 
 ![DMV Blooms](https://img.shields.io/badge/status-live-5F7A5E) ![GitHub Pages](https://img.shields.io/badge/hosted_on-GitHub_Pages-1C1917)
 
@@ -10,15 +10,15 @@ Live site: [dmvblooms.github.io](https://dmvblooms.github.io) *(update this URL 
 
 ## What is this?
 
-DMV Blooms helps you figure out what's flowering right now in the DC/Maryland/Virginia area and where to go see it. No apps to install, no accounts to create — just open the site and go chase some blooms.
+I built DMV Blooms to help people figure out what's flowering right now in the DC/Maryland/Virginia area and where to go see it. No apps to install, no accounts to create. Just open the site and go chase some blooms.
 
 ### Features
 
-- **This Weekend's Picks** — curated recommendations based on what's peaking right now, with specific locations and tips
-- **Blooming Now** — a live status board for 12 flower types across the DMV, auto-detected by date
-- **Bloom Calendar** — a full-year timeline showing peak and shoulder bloom windows for every flower
-- **Interactive Map** — 20 locations across DC, MD, and VA plotted on a real map (Leaflet + OpenStreetMap), with filters by region and bloom status
-- **Share a Bloom** — share any flower's status and best spots via native share (mobile) or clipboard (desktop)
+- **This Weekend's Picks** - curated recommendations based on what's peaking right now, with specific locations and tips
+- **Blooming Now** - a live status board for 12 flower types across the DMV, auto-detected by date
+- **Bloom Calendar** - a full-year timeline showing peak and shoulder bloom windows for every flower
+- **Interactive Map** - 20 locations across DC, MD, and VA plotted on a real map (Leaflet + OpenStreetMap), with filters by region and bloom status
+- **Share a Bloom** - share any flower's status and best spots via native share (mobile) or clipboard (desktop)
 
 ### Flowers tracked
 
@@ -32,13 +32,13 @@ Tidal Basin · National Arboretum · Enid Haupt Garden · Dumbarton Oaks · Kenw
 
 ## Tech
 
-This is a single `index.html` file. No build step, no framework, no dependencies to install.
+Single `index.html` file. No build step, no framework, no dependencies to install.
 
-- **Vanilla HTML/CSS/JS** — zero build tools
-- **[Leaflet.js](https://leafletjs.com/)** via CDN — interactive map
-- **[OpenStreetMap](https://www.openstreetmap.org/)** tiles — free, no API key
-- **Google Fonts** — Newsreader + Outfit
-- **GitHub Pages** — static hosting
+- **Vanilla HTML/CSS/JS** - zero build tools
+- **[Leaflet.js](https://leafletjs.com/)** via CDN - interactive map
+- **[OpenStreetMap](https://www.openstreetmap.org/)** tiles - free, no API key
+- **Google Fonts** - Newsreader + Outfit
+- **GitHub Pages** - static hosting
 
 Total size: ~30KB (before CDN assets).
 
@@ -46,7 +46,7 @@ Total size: ~30KB (before CDN assets).
 
 ## Deploy to GitHub Pages
 
-1. Create a new repo on GitHub (e.g., `dmv-blooms` or `your-username.github.io`)
+1. Create a new repo on GitHub (e.g., `dmv-blooms`)
 2. Push this repo's contents:
    ```bash
    git init
@@ -56,7 +56,7 @@ Total size: ~30KB (before CDN assets).
    git remote add origin https://github.com/YOUR_USERNAME/dmv-blooms.git
    git push -u origin main
    ```
-3. Go to **Settings → Pages** in your repo
+3. Go to **Settings > Pages** in your repo
 4. Under **Source**, select **Deploy from a branch**
 5. Choose `main` branch, `/ (root)` folder, and click **Save**
 6. Your site will be live at `https://YOUR_USERNAME.github.io/dmv-blooms/` within a minute or two
@@ -67,10 +67,10 @@ Total size: ~30KB (before CDN assets).
 
 Everything lives in `index.html`. The data is in plain JavaScript arrays at the top of the `<script>` block:
 
-- **`BLOOMS`** — flower definitions (name, emoji, months, peak months, description, locations)
-- **`LOCS`** — map locations (name, lat/lng, flowers, description, region)
+- **`BLOOMS`** - flower definitions (name, emoji, months, peak months, description, locations)
+- **`LOCS`** - map locations (name, lat/lng, flowers, description, region)
 
-To add a new flower or location, just add an entry to the relevant array. The calendar, cards, map, and recommendations will update automatically.
+To add a new flower or location, just add an entry to the relevant array. The calendar, cards, map, and recommendations all update automatically.
 
 ### Adjusting bloom status logic
 
@@ -80,7 +80,7 @@ The `status()` function determines what's blooming based on the current month. C
 
 ## Contributing
 
-Found a great bloom spot that's missing? Know a flower we should add? Open an issue or PR — contributions welcome.
+Found a great bloom spot that's missing? Know a flower we should add? Open an issue or PR.
 
 ---
 
