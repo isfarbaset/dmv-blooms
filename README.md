@@ -4,7 +4,7 @@
 
 Live site: [isfarbaset.github.io/dmv-blooms](https://isfarbaset.github.io/dmv-blooms)
 
-![DMV Blooms](https://img.shields.io/badge/status-live-5F7A5E) ![GitHub Pages](https://img.shields.io/badge/hosted_on-GitHub_Pages-1C1917)
+![DMV Blooms](https://img.shields.io/badge/status-live-5F7A5E)
 
 ---
 
