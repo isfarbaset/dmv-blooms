@@ -86,7 +86,9 @@ Found a great bloom spot that's missing? Know a flower we should add? Open an is
 
 ## License
 
-MIT
+Copyright © 2026 Isfar Baset. All rights reserved.
+
+This project is licensed under the [MIT License](LICENSE). You're free to use, modify, and share this code as long as you include the original copyright notice. If you'd like to build on it, I'd love for you to contribute back rather than fork and run with it separately. Open an issue or submit a PR - let's make it better together.
 
 ---
 
