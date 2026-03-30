@@ -12,69 +12,21 @@ Live site: [isfarbaset.github.io/dmv-blooms](https://isfarbaset.github.io/dmv-bl
 
 I built DMV Blooms to help people figure out what's flowering right now in the DC/Maryland/Virginia area and where to go see it. No apps to install, no accounts to create. Just open the site and go chase some blooms.
 
-### Features
+### What you get
 
-- **This Weekend's Picks** - curated recommendations based on what's peaking right now, with specific locations and tips
-- **Blooming Now** - a live status board for 12 flower types across the DMV, auto-detected by date
-- **Bloom Calendar** - a full-year timeline showing peak and shoulder bloom windows for every flower
-- **Interactive Map** - 20 locations across DC, MD, and VA plotted on a real map (Leaflet + OpenStreetMap), with filters by region and bloom status
-- **Share a Bloom** - share any flower's status and best spots via native share (mobile) or clipboard (desktop)
+- **This Weekend's Picks** - where to go this weekend based on what's peaking right now
+- **Blooming Now** - live status for 12 flowers across the DMV, with photos and location tips
+- **Bloom Calendar** - a full-year view so you can plan ahead
+- **Interactive Map** - 20 spots across DC, MD, and VA with filters by region and bloom status
+- **Share** - send any bloom's status and best spots to a friend
 
 ### Flowers tracked
 
 Cherry Blossoms · Magnolias · Tulips · Bluebells · Azaleas · Wisteria · Lilacs · Roses · Hydrangeas · Lavender · Lotus & Water Lilies · Sunflowers
 
-### Locations included
+### Locations
 
 Tidal Basin · National Arboretum · Enid Haupt Garden · Dumbarton Oaks · Kenwood · Brookside Gardens · Burnside Farms · Bull Run Regional Park · Riverbend Park · Franciscan Monastery · Kenilworth Aquatic Gardens · McKee-Beshers WMA · Netherlands Carillon · Georgetown Streets · National Cathedral · U.S. Botanic Garden · Hains Point · Floral Library · Congressional Cemetery · Lady Bird Johnson Park
-
----
-
-## Tech
-
-Single `index.html` file. No build step, no framework, no dependencies to install.
-
-- **Vanilla HTML/CSS/JS** - zero build tools
-- **[Leaflet.js](https://leafletjs.com/)** via CDN - interactive map
-- **[OpenStreetMap](https://www.openstreetmap.org/)** tiles - free, no API key
-- **Google Fonts** - Newsreader + Outfit
-- **GitHub Pages** - static hosting
-
-Total size: ~30KB (before CDN assets).
-
----
-
-## Deploy to GitHub Pages
-
-1. Create a new repo on GitHub (e.g., `dmv-blooms`)
-2. Push this repo's contents:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   git remote add origin https://github.com/YOUR_USERNAME/dmv-blooms.git
-   git push -u origin main
-   ```
-3. Go to **Settings > Pages** in your repo
-4. Under **Source**, select **Deploy from a branch**
-5. Choose `main` branch, `/ (root)` folder, and click **Save**
-6. Your site will be live at `https://YOUR_USERNAME.github.io/dmv-blooms/` within a minute or two
-
----
-
-## Customizing
-
-Everything lives in `index.html`. The data is in plain JavaScript arrays at the top of the `<script>` block:
-
-- **`BLOOMS`** - flower definitions (name, emoji, months, peak months, description, locations)
-- **`LOCS`** - map locations (name, lat/lng, flowers, description, region)
-
-To add a new flower or location, just add an entry to the relevant array. The calendar, cards, map, and recommendations all update automatically.
-
-### Adjusting bloom status logic
-
-The `status()` function determines what's blooming based on the current month. Cherry blossoms have special-case logic for peak/ending dates. Everything else uses month-based matching. Adjust the `mo` (bloom months) and `pk` (peak months) arrays per flower to fine-tune.
 
 ---
 
