@@ -227,6 +227,18 @@ body::before{
 }
 .tag-more{cursor:pointer;transition:background 0.2s,border-color 0.2s;}
 .tag-more:hover{background:var(--sage-light);border-color:var(--sage);color:var(--sage);}
+.tag-loc{position:relative;cursor:default;}
+.tag-loc .tag-preview{
+  display:none;position:absolute;bottom:calc(100% + 8px);left:50%;
+  transform:translateX(-50%);z-index:100;
+  width:240px;border-radius:var(--radius-sm);overflow:hidden;
+  box-shadow:var(--shadow-lg);border:1px solid var(--border);
+  background:var(--card);pointer-events:none;
+}
+.tag-loc:hover .tag-preview{display:block;}
+.tag-preview img{width:100%;height:140px;object-fit:cover;display:block;}
+.tag-preview-info{padding:8px 10px;font-size:0.72rem;color:var(--ink-light);line-height:1.4;}
+.tag-preview-name{font-weight:500;color:var(--ink);margin-bottom:2px;}
 .card-status{
   font-size:0.68rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;
   padding:3px 10px;border-radius:100px;
@@ -450,26 +462,26 @@ const BLOOMS=[
 ];
 
 const LOCS=[
-  {n:"Tidal Basin",la:38.8822,ln:-77.0365,fl:["Cherry Blossoms","Tulips"],d:"3,000+ cherry trees along the water. Sunrise visits are magical and crowd-free.",r:"DC",c:"#FADADD"},
-  {n:"National Arboretum",la:38.9126,ln:-76.9658,fl:["Azaleas","Cherry Blossoms","Magnolias"],d:"446 free acres. The azalea hillside is worth the drive to NE. No tickets needed.",r:"DC",c:"#F5DDE2"},
-  {n:"Enid Haupt Garden",la:38.8883,ln:-77.0259,fl:["Magnolias","Tulips"],d:"Behind the Smithsonian Castle. The saucer magnolias here are some of the best in the city. Free.",r:"DC",c:"#F0E4EC"},
-  {n:"Dumbarton Oaks",la:38.9148,ln:-77.0632,fl:["Wisteria","Magnolias","Azaleas","Lilacs"],d:"Georgetown's wisteria pergola is iconic. $15 tickets. Book early in spring, they sell out.",r:"DC",c:"#E6DDF0"},
-  {n:"Kenwood",la:38.9685,ln:-77.1092,fl:["Cherry Blossoms"],d:"A residential neighborhood in Bethesda with cherry-lined streets. Free to walk, feels like a secret.",r:"MD",c:"#FADADD"},
-  {n:"Brookside Gardens",la:39.0562,ln:-77.0484,fl:["Azaleas","Tulips","Roses"],d:"50-acre public garden in Wheaton. Free admission, beautiful in every season.",r:"MD",c:"#DEF0E4"},
-  {n:"Burnside Farms",la:38.6965,ln:-77.5555,fl:["Tulips","Sunflowers"],d:"Two million tulips. The Festival of Spring is a must. Tickets required, sells out fast.",r:"VA",c:"#FDE8E0"},
-  {n:"Bull Run Regional Park",la:38.8029,ln:-77.4658,fl:["Bluebells"],d:"Bluebell-carpeted forests along the river in Centreville. Magical and free.",r:"VA",c:"#DAE5F0"},
-  {n:"Riverbend Park",la:39.0210,ln:-77.2478,fl:["Bluebells"],d:"Annual Bluebell Festival with wildflower walks, live music, and food trucks.",r:"VA",c:"#DAE5F0"},
-  {n:"Franciscan Monastery",la:38.9333,ln:-76.9928,fl:["Azaleas","Roses","Tulips"],d:"DC's best-kept garden secret. Free tours on Saturdays, April through September.",r:"DC",c:"#F5DDE2"},
-  {n:"Kenilworth Aquatic Gardens",la:38.9130,ln:-76.9408,fl:["Lotus & Water Lilies"],d:"The only national park for aquatic flowers. Early morning in summer is the move.",r:"DC",c:"#DEF0E4"},
-  {n:"McKee-Beshers WMA",la:39.0925,ln:-77.3088,fl:["Sunflowers"],d:"30+ acres of sunflowers in Poolesville. Free. Bring bug spray.",r:"MD",c:"#F5F0D6"},
-  {n:"Netherlands Carillon",la:38.8916,ln:-77.0663,fl:["Tulips"],d:"Tulip fields around a bell tower gifted by the Netherlands after WWII. Great monument views.",r:"VA",c:"#FDE8E0"},
-  {n:"Georgetown Streets",la:38.9109,ln:-77.0595,fl:["Wisteria","Lilacs","Hydrangeas"],d:"R Street and 31st Street. Wisteria walls and lilac-draped rowhouses. Free and very Instagrammable.",r:"DC",c:"#E6DDF0"},
-  {n:"National Cathedral",la:38.9306,ln:-77.0708,fl:["Wisteria","Cherry Blossoms"],d:"The Bishop's Garden is a hidden medieval-style retreat. Olmsted Woods has old-growth forest.",r:"DC",c:"#E6DDF0"},
-  {n:"U.S. Botanic Garden",la:38.8882,ln:-77.0128,fl:["Roses"],d:"Living plant museum at the foot of Capitol Hill. Free admission, year-round displays.",r:"DC",c:"#F5DCDC"},
-  {n:"Hains Point",la:38.8630,ln:-77.0227,fl:["Cherry Blossoms"],d:"East Potomac Park's quiet tip. Fewer crowds than the Tidal Basin, beautiful waterfront trees.",r:"DC",c:"#FADADD"},
-  {n:"Floral Library",la:38.8847,ln:-77.0317,fl:["Tulips"],d:"10,000 tulip bulbs in 93 beds. Part of Lady Bird Johnson's beautification project. Free.",r:"DC",c:"#FDE8E0"},
-  {n:"Congressional Cemetery",la:38.8794,ln:-76.9793,fl:["Cherry Blossoms"],d:"Historic and peaceful. Beautiful cherry trees, fewer crowds, dogs welcome on-leash.",r:"DC",c:"#FADADD"},
-  {n:"Lady Bird Johnson Park",la:38.8790,ln:-77.0490,fl:["Cherry Blossoms"],d:"Thousands of daffodils in early spring plus weeping cherries. Lincoln Memorial views across the river.",r:"VA",c:"#F5F0D6"},
+  {n:"Tidal Basin",la:38.8822,ln:-77.0365,fl:["Cherry Blossoms","Tulips"],d:"3,000+ cherry trees along the water. Sunrise visits are magical and crowd-free.",r:"DC",c:"#FADADD",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/IMG_2365_-_Washington_DC_-_Tidal_Basin_-_Cherry_Blossoms.JPG/640px-IMG_2365_-_Washington_DC_-_Tidal_Basin_-_Cherry_Blossoms.JPG"},
+  {n:"National Arboretum",la:38.9126,ln:-76.9658,fl:["Azaleas","Cherry Blossoms","Magnolias"],d:"446 free acres. The azalea hillside is worth the drive to NE. No tickets needed.",r:"DC",c:"#F5DDE2",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Azalea_garden_at_the_National_Arboretum.jpg/640px-Azalea_garden_at_the_National_Arboretum.jpg"},
+  {n:"Enid Haupt Garden",la:38.8883,ln:-77.0259,fl:["Magnolias","Tulips"],d:"Behind the Smithsonian Castle. The saucer magnolias here are some of the best in the city. Free.",r:"DC",c:"#F0E4EC",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Enid_A._Haupt_Garden%2C_Washington%2C_D.C._%282013%29_-_02.JPG/640px-Enid_A._Haupt_Garden%2C_Washington%2C_D.C._%282013%29_-_02.JPG"},
+  {n:"Dumbarton Oaks",la:38.9148,ln:-77.0632,fl:["Wisteria","Magnolias","Azaleas","Lilacs"],d:"Georgetown's wisteria pergola is iconic. $15 tickets. Book early in spring, they sell out.",r:"DC",c:"#E6DDF0",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Dumbarton_Oaks_in_April_%2817172168765%29.jpg/640px-Dumbarton_Oaks_in_April_%2817172168765%29.jpg"},
+  {n:"Kenwood",la:38.9685,ln:-77.1092,fl:["Cherry Blossoms"],d:"A residential neighborhood in Bethesda with cherry-lined streets. Free to walk, feels like a secret.",r:"MD",c:"#FADADD",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Cherry_Blossom_Festival_Washington_DC.JPG/640px-Cherry_Blossom_Festival_Washington_DC.JPG"},
+  {n:"Brookside Gardens",la:39.0562,ln:-77.0484,fl:["Azaleas","Tulips","Roses"],d:"50-acre public garden in Wheaton. Free admission, beautiful in every season.",r:"MD",c:"#DEF0E4",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Brookside_Gardens_in_June_%2818159368934%29.jpg/640px-Brookside_Gardens_in_June_%2818159368934%29.jpg"},
+  {n:"Burnside Farms",la:38.6965,ln:-77.5555,fl:["Tulips","Sunflowers"],d:"Two million tulips. The Festival of Spring is a must. Tickets required, sells out fast.",r:"VA",c:"#FDE8E0",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Tulips_garden_1.jpg/640px-Tulips_garden_1.jpg"},
+  {n:"Bull Run Regional Park",la:38.8029,ln:-77.4658,fl:["Bluebells"],d:"Bluebell-carpeted forests along the river in Centreville. Magical and free.",r:"VA",c:"#DAE5F0",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Bull_Run_Park_-_Mertensia_virginica_-_02.jpg/640px-Bull_Run_Park_-_Mertensia_virginica_-_02.jpg"},
+  {n:"Riverbend Park",la:39.0210,ln:-77.2478,fl:["Bluebells"],d:"Annual Bluebell Festival with wildflower walks, live music, and food trucks.",r:"VA",c:"#DAE5F0",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Virginia_Bluebells_-_Mertensia_virginica%2C_Riverbend_Park%2C_Great_Falls%2C_Virginia%2C_March_7%2C_2023_%2853010997046%29.jpg/640px-Virginia_Bluebells_-_Mertensia_virginica%2C_Riverbend_Park%2C_Great_Falls%2C_Virginia%2C_March_7%2C_2023_%2853010997046%29.jpg"},
+  {n:"Franciscan Monastery",la:38.9333,ln:-76.9928,fl:["Azaleas","Roses","Tulips"],d:"DC's best-kept garden secret. Free tours on Saturdays, April through September.",r:"DC",c:"#F5DDE2",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Courtyard_Monastery_DC.JPG/640px-Courtyard_Monastery_DC.JPG"},
+  {n:"Kenilworth Aquatic Gardens",la:38.9130,ln:-76.9408,fl:["Lotus & Water Lilies"],d:"The only national park for aquatic flowers. Early morning in summer is the move.",r:"DC",c:"#DEF0E4",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/2016_Water_Lily_and_Lotus_Festival_%28bc4e7370-1dd8-b71b-0ba2-b804c5fd9d6b%29.jpg/640px-2016_Water_Lily_and_Lotus_Festival_%28bc4e7370-1dd8-b71b-0ba2-b804c5fd9d6b%29.jpg"},
+  {n:"McKee-Beshers WMA",la:39.0925,ln:-77.3088,fl:["Sunflowers"],d:"30+ acres of sunflowers in Poolesville. Free. Bring bug spray.",r:"MD",c:"#F5F0D6",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Sunflower_Field_2023_01.jpg/640px-Sunflower_Field_2023_01.jpg"},
+  {n:"Netherlands Carillon",la:38.8916,ln:-77.0663,fl:["Tulips"],d:"Tulip fields around a bell tower gifted by the Netherlands after WWII. Great monument views.",r:"VA",c:"#FDE8E0",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Tulips_at_the_Netherlands_Carillon_in_Arlington%2C_Virginia_-_Stierch.jpg/640px-Tulips_at_the_Netherlands_Carillon_in_Arlington%2C_Virginia_-_Stierch.jpg"},
+  {n:"Georgetown Streets",la:38.9109,ln:-77.0595,fl:["Wisteria","Lilacs","Hydrangeas"],d:"R Street and 31st Street. Wisteria walls and lilac-draped rowhouses. Free and very Instagrammable.",r:"DC",c:"#E6DDF0",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Wisteria_sinensis_1.JPG/640px-Wisteria_sinensis_1.JPG"},
+  {n:"National Cathedral",la:38.9306,ln:-77.0708,fl:["Wisteria","Cherry Blossoms"],d:"The Bishop's Garden is a hidden medieval-style retreat. Olmsted Woods has old-growth forest.",r:"DC",c:"#E6DDF0",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Bishop%27s_Garden.jpg/640px-Bishop%27s_Garden.jpg"},
+  {n:"U.S. Botanic Garden",la:38.8882,ln:-77.0128,fl:["Roses"],d:"Living plant museum at the foot of Capitol Hill. Free admission, year-round displays.",r:"DC",c:"#F5DCDC",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/U.S._Botanic_Garden_in_June_%2814469256520%29.jpg/640px-U.S._Botanic_Garden_in_June_%2814469256520%29.jpg"},
+  {n:"Hains Point",la:38.8630,ln:-77.0227,fl:["Cherry Blossoms"],d:"East Potomac Park's quiet tip. Fewer crowds than the Tidal Basin, beautiful waterfront trees.",r:"DC",c:"#FADADD",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Hains_Point_and_the_Washington_Channel.jpg/640px-Hains_Point_and_the_Washington_Channel.jpg"},
+  {n:"Floral Library",la:38.8847,ln:-77.0317,fl:["Tulips"],d:"10,000 tulip bulbs in 93 beds. Part of Lady Bird Johnson's beautification project. Free.",r:"DC",c:"#FDE8E0",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Tulipfield_in_Holland.JPG/640px-Tulipfield_in_Holland.JPG"},
+  {n:"Congressional Cemetery",la:38.8794,ln:-76.9793,fl:["Cherry Blossoms"],d:"Historic and peaceful. Beautiful cherry trees, fewer crowds, dogs welcome on-leash.",r:"DC",c:"#FADADD",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Dogwood_Blossoms_at_Congressional_Cemetery.jpg/640px-Dogwood_Blossoms_at_Congressional_Cemetery.jpg"},
+  {n:"Lady Bird Johnson Park",la:38.8790,ln:-77.0490,fl:["Cherry Blossoms"],d:"Thousands of daffodils in early spring plus weeping cherries. Lincoln Memorial views across the river.",r:"VA",c:"#F5F0D6",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Lyndon_Baines_Johnson_Memorial_Grove.jpg/640px-Lyndon_Baines_Johnson_Memorial_Grove.jpg"},
 ];
 
 // STATUS
@@ -490,6 +502,17 @@ function locStatus(loc){
   let best="waiting";const ord=["peak","blooming","ending","upcoming","waiting"];
   loc.fl.forEach(f=>{const b=BLOOMS.find(x=>x.n===f);if(b){const s=status(b);if(ord.indexOf(s)<ord.indexOf(best))best=s;}});
   return best;
+}
+
+// LOC TAG WITH PHOTO PREVIEW
+function locTag(locName,hidden){
+  const loc=LOCS.find(x=>x.n===locName||locName.startsWith(x.n));
+  const cls=hidden?'tag tag-loc tag-hidden':'tag tag-loc';
+  const style=hidden?' style="display:none"':'';
+  if(loc&&loc.img){
+    return `<span class="${cls}"${style}>${locName}<span class="tag-preview"><img src="${loc.img}" alt="${loc.n}" loading="lazy"><div class="tag-preview-info"><div class="tag-preview-name">${loc.n}</div>${loc.d}</div></span></span>`;
+  }
+  return `<span class="${hidden?'tag tag-hidden':'tag'}"${style}>${locName}</span>`;
 }
 
 // SHARE
@@ -576,9 +599,9 @@ function renderNow(){
       <div class="card-body">
         <p>${b.d}</p>
         <div class="card-tags">
-          ${b.loc.slice(0,3).map(l=>`<span class="tag">${l}</span>`).join('')}
+          ${b.loc.slice(0,3).map(l=>locTag(l,false)).join('')}
           ${b.loc.length>3?`<span class="tag tag-more" onclick="this.parentElement.querySelectorAll('.tag-hidden').forEach(t=>t.style.display='inline');this.remove()">+${b.loc.length-3}</span>`:''}
-          ${b.loc.slice(3).map(l=>`<span class="tag tag-hidden" style="display:none">${l}</span>`).join('')}
+          ${b.loc.slice(3).map(l=>locTag(l,true)).join('')}
         </div>
       </div>
       <div class="card-bottom">
