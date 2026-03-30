@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DMV Blooms — What's Flowering in DC, MD & VA</title>
+<title>DMV Blooms - What's Flowering in DC, MD & VA</title>
 <meta name="description" content="A seasonal guide to the best flowers and bloom spots across the DC, Maryland and Virginia area.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -225,6 +225,8 @@ body::before{
   padding:3px 10px;border-radius:100px;font-size:0.72rem;font-weight:500;
   border:1px solid var(--border);color:var(--ink-light);background:var(--white);
 }
+.tag-more{cursor:pointer;transition:background 0.2s,border-color 0.2s;}
+.tag-more:hover{background:var(--sage-light);border-color:var(--sage);color:var(--sage);}
 .card-status{
   font-size:0.68rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;
   padding:3px 10px;border-radius:100px;
@@ -358,7 +360,7 @@ footer .f-sm{font-family:var(--sans);font-style:normal;font-size:0.75rem;margin-
 <section class="hero" id="top">
   <div class="hero-badge"><span class="dot"></span> <span id="hero-count">Loading</span></div>
   <h1>DMV<br><em>Blooms</em></h1>
-  <p class="hero-sub">A field guide to the flowers of DC, Maryland & Virginia — updated for the season, so you always know where to go.</p>
+  <p class="hero-sub">A field guide to the flowers of DC, Maryland & Virginia, updated for the season so you always know where to go.</p>
   <a href="#reco" class="hero-cta">
     See this weekend's picks
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
@@ -436,7 +438,7 @@ const BLOOMS=[
   {n:"Cherry Blossoms",e:"🌸",mo:[2,3],pk:[2,3],wk:"Late Mar – Early Apr",d:"DC's signature bloom. Yoshino cherries turn the Tidal Basin into clouds of pale pink. Kwanzan varieties follow two to three weeks later with deeper color.",c:"#FADADD",loc:["Tidal Basin","National Arboretum","Kenwood, MD","Hains Point","Congressional Cemetery"]},
   {n:"Magnolias",e:"🪷",mo:[2,3],pk:[2],wk:"Early – Mid Mar",d:"Saucer magnolias in pink, white and purple appear a few weeks before the cherries. Enormous blooms, surprisingly fragrant.",c:"#F0E4EC",loc:["Enid Haupt Garden","Dumbarton Oaks","Rock Creek Park","Hillwood Estate"]},
   {n:"Tulips",e:"🌷",mo:[3,4],pk:[3],wk:"Early – Mid Apr",d:"Every color you can imagine. The Floral Library has 10,000 bulbs in 93 beds. Burnside Farms in Nokesville plants two million across 30 varieties.",c:"#FDE8E0",loc:["Floral Library","Burnside Farms, VA","Netherlands Carillon","U.S. Capitol Grounds"]},
-  {n:"Bluebells",e:"🔵",mo:[2,3],pk:[3],wk:"Late Mar – Mid Apr",d:"Virginia bluebells carpet riverside forests in waves of purple-blue. Blink and you'll miss them — the season is short and enchanting.",c:"#DAE5F0",loc:["Bull Run Regional Park","Riverbend Park, VA","C&O Canal","Great Falls Park"]},
+  {n:"Bluebells",e:"🔵",mo:[2,3],pk:[3],wk:"Late Mar – Mid Apr",d:"Virginia bluebells carpet riverside forests in waves of purple-blue. Blink and you'll miss them. The season is short and enchanting.",c:"#DAE5F0",loc:["Bull Run Regional Park","Riverbend Park, VA","C&O Canal","Great Falls Park"]},
   {n:"Azaleas",e:"🌺",mo:[3,4],pk:[3,4],wk:"Late Apr – Mid May",d:"Mount Hamilton at the Arboretum becomes a hillside of red, pink, purple and white. Peak happens in stages over several weeks.",c:"#F5DDE2",loc:["National Arboretum","Franciscan Monastery","Brookside Gardens, MD","Dumbarton Oaks"]},
   {n:"Wisteria",e:"💜",mo:[3,4],pk:[3,4],wk:"Apr – May",d:"Cascading purple racemes dripping from pergolas and stone walls. Dumbarton Oaks and Georgetown's R Street are the spots.",c:"#E6DDF0",loc:["Dumbarton Oaks","Georgetown streets","Tudor Place","National Cathedral"]},
   {n:"Lilacs",e:"🪻",mo:[3],pk:[3],wk:"April",d:"Fragrant purple and white clusters. Georgetown's lilac-covered walls are a spring tradition worth seeking out.",c:"#E2D8EE",loc:["Georgetown","Dumbarton Oaks","National Arboretum"]},
@@ -444,24 +446,24 @@ const BLOOMS=[
   {n:"Hydrangeas",e:"💠",mo:[5,6,7],pk:[5,6],wk:"Jun – Jul",d:"Big clusters of blue, pink and white that love the DMV's humidity. Yards Park has a surprisingly good showing.",c:"#DAE5EF",loc:["Yards Park","Georgetown","Franciscan Monastery","Tudor Place"]},
   {n:"Lavender",e:"💐",mo:[5,6],pk:[5,6],wk:"Jun – Jul",d:"Rolling fields of fragrant purple at farms across Maryland and Virginia. Many open for pick-your-own season.",c:"#E6DDF0",loc:["Seven Oaks Lavender Farm, VA","Soleado Lavender Farm, MD","Springfield Manor, MD"]},
   {n:"Lotus & Water Lilies",e:"🪷",mo:[6,7],pk:[6,7],wk:"Jul – Aug",d:"Kenilworth Aquatic Gardens is the only national park dedicated to water flowers. Go early morning for the best blooms.",c:"#DEF0E4",loc:["Kenilworth Aquatic Gardens"]},
-  {n:"Sunflowers",e:"🌻",mo:[6,7,8],pk:[6,7],wk:"Mid Jul – Sep",d:"Thirty-plus acres of towering gold at McKee-Beshers. Bring bug spray and a camera — the fields are free to wander.",c:"#F5F0D6",loc:["McKee-Beshers WMA, MD","Burnside Farms, VA"]},
+  {n:"Sunflowers",e:"🌻",mo:[6,7,8],pk:[6,7],wk:"Mid Jul – Sep",d:"Thirty-plus acres of towering gold at McKee-Beshers. Bring bug spray and a camera. The fields are free to wander.",c:"#F5F0D6",loc:["McKee-Beshers WMA, MD","Burnside Farms, VA"]},
 ];
 
 const LOCS=[
   {n:"Tidal Basin",la:38.8822,ln:-77.0365,fl:["Cherry Blossoms","Tulips"],d:"3,000+ cherry trees along the water. Sunrise visits are magical and crowd-free.",r:"DC",c:"#FADADD"},
   {n:"National Arboretum",la:38.9126,ln:-76.9658,fl:["Azaleas","Cherry Blossoms","Magnolias"],d:"446 free acres. The azalea hillside is worth the drive to NE. No tickets needed.",r:"DC",c:"#F5DDE2"},
   {n:"Enid Haupt Garden",la:38.8883,ln:-77.0259,fl:["Magnolias","Tulips"],d:"Behind the Smithsonian Castle. The saucer magnolias here are some of the best in the city. Free.",r:"DC",c:"#F0E4EC"},
-  {n:"Dumbarton Oaks",la:38.9148,ln:-77.0632,fl:["Wisteria","Magnolias","Azaleas","Lilacs"],d:"Georgetown's wisteria pergola is iconic. $15 tickets — book early in spring, they sell out.",r:"DC",c:"#E6DDF0"},
+  {n:"Dumbarton Oaks",la:38.9148,ln:-77.0632,fl:["Wisteria","Magnolias","Azaleas","Lilacs"],d:"Georgetown's wisteria pergola is iconic. $15 tickets. Book early in spring, they sell out.",r:"DC",c:"#E6DDF0"},
   {n:"Kenwood",la:38.9685,ln:-77.1092,fl:["Cherry Blossoms"],d:"A residential neighborhood in Bethesda with cherry-lined streets. Free to walk, feels like a secret.",r:"MD",c:"#FADADD"},
   {n:"Brookside Gardens",la:39.0562,ln:-77.0484,fl:["Azaleas","Tulips","Roses"],d:"50-acre public garden in Wheaton. Free admission, beautiful in every season.",r:"MD",c:"#DEF0E4"},
-  {n:"Burnside Farms",la:38.6965,ln:-77.5555,fl:["Tulips","Sunflowers"],d:"Two million tulips. The Festival of Spring is a must — tickets required, sells out fast.",r:"VA",c:"#FDE8E0"},
+  {n:"Burnside Farms",la:38.6965,ln:-77.5555,fl:["Tulips","Sunflowers"],d:"Two million tulips. The Festival of Spring is a must. Tickets required, sells out fast.",r:"VA",c:"#FDE8E0"},
   {n:"Bull Run Regional Park",la:38.8029,ln:-77.4658,fl:["Bluebells"],d:"Bluebell-carpeted forests along the river in Centreville. Magical and free.",r:"VA",c:"#DAE5F0"},
   {n:"Riverbend Park",la:39.0210,ln:-77.2478,fl:["Bluebells"],d:"Annual Bluebell Festival with wildflower walks, live music, and food trucks.",r:"VA",c:"#DAE5F0"},
   {n:"Franciscan Monastery",la:38.9333,ln:-76.9928,fl:["Azaleas","Roses","Tulips"],d:"DC's best-kept garden secret. Free tours on Saturdays, April through September.",r:"DC",c:"#F5DDE2"},
   {n:"Kenilworth Aquatic Gardens",la:38.9130,ln:-76.9408,fl:["Lotus & Water Lilies"],d:"The only national park for aquatic flowers. Early morning in summer is the move.",r:"DC",c:"#DEF0E4"},
   {n:"McKee-Beshers WMA",la:39.0925,ln:-77.3088,fl:["Sunflowers"],d:"30+ acres of sunflowers in Poolesville. Free. Bring bug spray.",r:"MD",c:"#F5F0D6"},
   {n:"Netherlands Carillon",la:38.8916,ln:-77.0663,fl:["Tulips"],d:"Tulip fields around a bell tower gifted by the Netherlands after WWII. Great monument views.",r:"VA",c:"#FDE8E0"},
-  {n:"Georgetown Streets",la:38.9109,ln:-77.0595,fl:["Wisteria","Lilacs","Hydrangeas"],d:"R Street and 31st Street — wisteria walls and lilac-draped rowhouses. Free and very Instagrammable.",r:"DC",c:"#E6DDF0"},
+  {n:"Georgetown Streets",la:38.9109,ln:-77.0595,fl:["Wisteria","Lilacs","Hydrangeas"],d:"R Street and 31st Street. Wisteria walls and lilac-draped rowhouses. Free and very Instagrammable.",r:"DC",c:"#E6DDF0"},
   {n:"National Cathedral",la:38.9306,ln:-77.0708,fl:["Wisteria","Cherry Blossoms"],d:"The Bishop's Garden is a hidden medieval-style retreat. Olmsted Woods has old-growth forest.",r:"DC",c:"#E6DDF0"},
   {n:"U.S. Botanic Garden",la:38.8882,ln:-77.0128,fl:["Roses"],d:"Living plant museum at the foot of Capitol Hill. Free admission, year-round displays.",r:"DC",c:"#F5DCDC"},
   {n:"Hains Point",la:38.8630,ln:-77.0227,fl:["Cherry Blossoms"],d:"East Potomac Park's quiet tip. Fewer crowds than the Tidal Basin, beautiful waterfront trees.",r:"DC",c:"#FADADD"},
@@ -494,10 +496,10 @@ function locStatus(loc){
 const SHARE_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>';
 
 function shareBloom(bloom){
-  const text=`${bloom.e} ${bloom.n} — ${stLabel(status(bloom)).toLowerCase()} in the DMV right now!\n\nBest spots: ${bloom.loc.slice(0,3).join(', ')}\nPeak: ${bloom.wk}\n\n🌿 dmvblooms.github.io`;
+  const text=`${bloom.e} ${bloom.n} - ${stLabel(status(bloom)).toLowerCase()} in the DMV right now!\n\nBest spots: ${bloom.loc.slice(0,3).join(', ')}\nPeak: ${bloom.wk}\n\n🌿 isfarbaset.github.io/dmv-blooms`;
 
   if(navigator.share){
-    navigator.share({title:`${bloom.n} — DMV Blooms`,text}).catch(()=>{});
+    navigator.share({title:`${bloom.n} - DMV Blooms`,text}).catch(()=>{});
   } else {
     navigator.clipboard.writeText(text).then(()=>{
       const t=document.getElementById('share-toast');
@@ -527,7 +529,7 @@ function renderReco(){
       if(l.length){used.add(l[0].n);picks.push({bl,loc:l[0]});}
     });
 
-  function tip(s){return{peak:"Don't wait — peak bloom is fleeting",ending:"Last chance this year",blooming:"Looking beautiful right now"}[s]||"";}
+  function tip(s){return{peak:"Don't wait, peak bloom is fleeting",ending:"Last chance this year",blooming:"Looking beautiful right now"}[s]||"";}
 
   document.getElementById('reco-container').innerHTML=`
     <div class="reco-card">
@@ -575,7 +577,8 @@ function renderNow(){
         <p>${b.d}</p>
         <div class="card-tags">
           ${b.loc.slice(0,3).map(l=>`<span class="tag">${l}</span>`).join('')}
-          ${b.loc.length>3?`<span class="tag">+${b.loc.length-3}</span>`:''}
+          ${b.loc.length>3?`<span class="tag tag-more" onclick="this.parentElement.querySelectorAll('.tag-hidden').forEach(t=>t.style.display='inline');this.remove()">+${b.loc.length-3}</span>`:''}
+          ${b.loc.slice(3).map(l=>`<span class="tag tag-hidden" style="display:none">${l}</span>`).join('')}
         </div>
       </div>
       <div class="card-bottom">
