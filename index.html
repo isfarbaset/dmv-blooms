@@ -3,449 +3,533 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DMV Blooms - What's Flowering in DC, MD & VA</title>
+<title>DMV Blooms — What's Flowering in DC, MD & VA</title>
 <meta name="description" content="A seasonal guide to the best flowers and bloom spots across the DC, Maryland and Virginia area.">
 <link id="favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🌸</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-/* ===== TOKENS ===== */
-:root {
-  --ivory: #F7F3EC;
-  --parchment: #EDE8DF;
-  --ink: #1C1917;
-  --ink-light: #57534E;
-  --ink-faint: #A8A29E;
-  --sage: #5F7A5E;
-  --sage-light: #E8EDE6;
-  --terracotta: #C2704E;
-  --terracotta-light: #FAF0EB;
-  --blush: #D4929A;
-  --blush-light: #F9F0F1;
-  --slate: #64748B;
-  --white: #FFFDF9;
-  --card: #FDFBF7;
-  --border: #E7E1D8;
-  --shadow-sm: 0 1px 3px rgba(28,25,23,0.04), 0 1px 2px rgba(28,25,23,0.06);
-  --shadow-md: 0 4px 16px rgba(28,25,23,0.06), 0 2px 4px rgba(28,25,23,0.04);
-  --shadow-lg: 0 12px 40px rgba(28,25,23,0.08);
-  --radius: 12px;
-  --radius-sm: 8px;
-  --serif: 'Newsreader', Georgia, serif;
-  --sans: 'Outfit', system-ui, sans-serif;
+:root{
+  --bg:#F5F0EA;--bg2:#EDE7DF;--bg-dark:#1A1714;--bg-dark2:#252119;
+  --ink:#1A1714;--ink2:#4A453D;--ink3:#8A847A;--ink4:#B5AFA5;
+  --accent:#C26E4B;--accent2:#A85A3A;--sage:#6B8068;--sage-light:#E2EAE0;
+  --blush:#C8868E;--gold:#B08D57;
+  --cream:#FAF7F2;--white:#FFFDF9;
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --r:20px;--r-sm:12px;
+  --sh:0 8px 40px rgba(26,23,20,0.08);
+  --sh-lg:0 20px 60px rgba(26,23,20,0.12);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{
-  font-family:var(--sans);background:var(--ivory);color:var(--ink);
-  line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;
-}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:default;}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
 
-/* grain overlay */
-body::before{
-  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
-  opacity:0.025;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+/* ===== CUSTOM CURSOR ===== */
+.cursor-dot{
+  position:fixed;width:8px;height:8px;border-radius:50%;
+  background:var(--accent);pointer-events:none;z-index:99999;
+  mix-blend-mode:exclusion;transition:transform 0.15s;
+  transform:translate(-50%,-50%);
 }
+.cursor-ring{
+  position:fixed;width:36px;height:36px;border-radius:50%;
+  border:1.5px solid var(--accent);pointer-events:none;z-index:99998;
+  mix-blend-mode:exclusion;
+  transform:translate(-50%,-50%);
+  transition:width 0.3s,height 0.3s,border-color 0.3s;
+}
+.cursor-ring.hover{width:56px;height:56px;border-color:var(--blush);}
 
-/* ===== HERO ===== */
-.hero{
-  min-height:100vh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;
-  padding:2rem 1.5rem;position:relative;
-  background:var(--ivory);
-  border-bottom:1px solid var(--border);
-}
-.hero-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  font-family:var(--sans);font-size:0.75rem;font-weight:500;
-  letter-spacing:0.08em;text-transform:uppercase;
-  color:var(--sage);border:1px solid var(--sage);
-  padding:6px 16px;border-radius:100px;margin-bottom:2rem;
-}
-.hero-badge .dot{
-  width:6px;height:6px;border-radius:50%;background:var(--sage);
-  animation:pulse 2.5s ease-in-out infinite;
-}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+/* ===== SCROLL PROGRESS ===== */
+.scroll-progress{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--accent);z-index:10001;pointer-events:none;}
 
-.hero h1{
-  font-family:var(--serif);font-weight:300;
-  font-size:clamp(3.2rem,9vw,7rem);line-height:0.95;
-  letter-spacing:-0.03em;margin-bottom:0.4em;color:var(--ink);
-}
-.hero h1 em{
-  font-style:italic;font-weight:300;color:var(--terracotta);
-}
-.hero-sub{
-  font-family:var(--serif);font-style:italic;
-  font-size:clamp(1rem,2.2vw,1.35rem);font-weight:300;
-  color:var(--ink-light);max-width:500px;margin-bottom:2.5rem;
-}
-.hero-cta{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:14px 28px;border-radius:100px;
-  background:var(--ink);color:var(--ivory);
-  font-family:var(--sans);font-size:0.9rem;font-weight:500;
-  text-decoration:none;transition:all 0.3s;
-  border:none;cursor:pointer;
-}
-.hero-cta:hover{background:var(--terracotta);transform:translateY(-1px);}
-.hero-cta svg{width:16px;height:16px;}
-
-.hero-scroll{
-  position:absolute;bottom:2rem;
-  font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
-  color:var(--ink-faint);
+/* ===== GRAIN ===== */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:0.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* ===== NAV ===== */
 .nav{
-  position:sticky;top:0;z-index:1000;
-  background:rgba(247,243,236,0.92);backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
+  position:fixed;top:0;left:0;right:0;z-index:5000;
+  padding:0 clamp(1.5rem,4vw,3rem);height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background 0.4s,backdrop-filter 0.4s;
 }
-.nav-inner{
-  max-width:1120px;margin:0 auto;padding:0 1.5rem;
-  display:flex;align-items:center;height:56px;
-  gap:1rem;overflow-x:auto;scrollbar-width:none;
+.nav.scrolled{background:rgba(245,240,234,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.05);}
+.nav-logo{font-family:var(--serif);font-size:1.3rem;letter-spacing:-0.03em;}
+.nav-logo em{font-style:italic;color:var(--accent);}
+.nav-links{display:flex;gap:clamp(1rem,3vw,2.5rem);align-items:center;}
+.nav-link{
+  font-size:0.78rem;font-weight:400;color:var(--ink2);
+  letter-spacing:0.02em;transition:color 0.2s;position:relative;
 }
-.nav-inner::-webkit-scrollbar{display:none;}
-.nav-logo{
-  font-family:var(--serif);font-weight:400;font-size:1.1rem;
-  color:var(--ink);white-space:nowrap;flex-shrink:0;
-  letter-spacing:-0.02em;
+.nav-link::after{
+  content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;
+  background:var(--accent);transition:width 0.3s;
 }
-.nav-logo span{color:var(--terracotta);}
-.nav-tabs{display:flex;gap:2px;margin-left:auto;}
-.nav-tab{
-  padding:6px 14px;border-radius:100px;border:none;background:transparent;
-  font-family:var(--sans);font-size:0.8rem;font-weight:400;
-  color:var(--ink-light);cursor:pointer;transition:all 0.25s;white-space:nowrap;
-}
-.nav-tab:hover{color:var(--ink);background:var(--parchment);}
-.nav-tab.active{background:var(--ink);color:var(--ivory);}
+.nav-link:hover{color:var(--ink);}
+.nav-link:hover::after{width:100%;}
+.nav-link.active{color:var(--accent);}
+.nav-link.active::after{width:100%;}
 
-/* ===== SECTIONS ===== */
-.section{max-width:1120px;margin:0 auto;padding:5rem 1.5rem;}
-.section-label{
-  font-family:var(--sans);font-size:0.7rem;font-weight:500;
-  letter-spacing:0.1em;text-transform:uppercase;color:var(--terracotta);
-  margin-bottom:0.75rem;
+/* ===== HERO — FULL BLEED SPLIT ===== */
+.hero{
+  min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
+  position:relative;overflow:hidden;
 }
-.section-title{
+.hero-content{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(3rem,8vw,8rem) clamp(2rem,6vw,6rem);
+  position:relative;z-index:2;
+}
+.hero-eyebrow{
+  font-size:0.68rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:2rem;
+  display:flex;align-items:center;gap:8px;
+}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--sage);animation:pulse 2.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{
   font-family:var(--serif);font-weight:400;
-  font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.1;
-  letter-spacing:-0.02em;margin-bottom:0.4em;
+  font-size:clamp(3.5rem,7vw,6.5rem);line-height:0.95;
+  letter-spacing:-0.04em;margin-bottom:1.5rem;
 }
-.section-desc{
-  font-family:var(--serif);font-style:italic;font-weight:300;
-  color:var(--ink-light);font-size:1.05rem;margin-bottom:3rem;max-width:520px;
+.hero h1 em{font-style:italic;color:var(--accent);}
+.hero-sub{
+  font-family:var(--sans);font-weight:300;font-size:clamp(0.95rem,1.3vw,1.15rem);
+  color:var(--ink2);max-width:380px;line-height:1.65;margin-bottom:2.5rem;
+}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:10px;width:fit-content;
+  padding:16px 36px;border-radius:100px;
+  background:var(--ink);color:var(--cream);
+  font-size:0.85rem;font-weight:400;letter-spacing:0.01em;
+  transition:all 0.4s cubic-bezier(.22,1,.36,1);border:none;cursor:pointer;
+}
+.hero-cta:hover{background:var(--accent);transform:translateY(-2px);box-shadow:var(--sh);}
+.hero-cta svg{width:14px;height:14px;transition:transform 0.3s;}
+.hero-cta:hover svg{transform:translate(3px,-3px);}
+.hero-img{position:relative;overflow:hidden;}
+.hero-img img{width:100%;height:100%;object-fit:cover;}
+.hero-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to right,var(--bg) 0%,transparent 15%);
+}
+.hero-scroll{
+  position:absolute;bottom:3rem;left:clamp(2rem,6vw,6rem);
+  font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--ink3);display:flex;align-items:center;gap:8px;z-index:3;
+}
+.hero-scroll .line{width:30px;height:1px;background:var(--ink4);animation:scrollLine 2s ease-in-out infinite;}
+@keyframes scrollLine{0%,100%{transform:scaleX(1)}50%{transform:scaleX(0.4)}}
+
+/* ===== MARQUEE ===== */
+.marquee{overflow:hidden;white-space:nowrap;padding:18px 0;border-bottom:1px solid rgba(0,0,0,0.06);}
+.marquee-track{display:inline-flex;animation:marquee 40s linear infinite;}
+.marquee-item{
+  font-family:var(--serif);font-style:italic;font-size:1rem;
+  color:var(--ink3);display:inline-flex;align-items:center;gap:2rem;padding:0 2rem;
+}
+.marquee-item .sep{color:var(--accent);font-size:0.6rem;font-style:normal;}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ===== SECTION SYSTEM ===== */
+.sec{padding:clamp(4rem,10vw,10rem) clamp(1.5rem,4vw,3rem);}
+.sec-inner{max-width:1200px;margin:0 auto;}
+.sec-eyebrow{
+  font-size:0.65rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:1rem;
+}
+.sec-title{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(2.2rem,5vw,4rem);line-height:1;
+  letter-spacing:-0.03em;margin-bottom:0.5em;
+}
+.sec-title em{font-style:italic;color:var(--accent);}
+.sec-desc{
+  font-weight:300;font-size:clamp(0.9rem,1.1vw,1.05rem);
+  color:var(--ink2);max-width:480px;line-height:1.65;margin-bottom:3rem;
 }
 
-/* ===== RECO ===== */
-#reco{scroll-margin-top:60px;}
-.reco-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--radius);padding:2.5rem;
-  position:relative;
+/* ===== LIVE CAM — CINEMATIC ===== */
+.cam-section{background:var(--bg-dark);color:var(--cream);overflow:hidden;position:relative;}
+.cam-section .sec-eyebrow{color:var(--blush);}
+.cam-section .sec-desc{color:rgba(250,247,242,0.55);}
+.cam-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:0;border-radius:var(--r);overflow:hidden;min-height:480px;}
+.cam-video{position:relative;background:#000;min-height:400px;}
+.cam-video iframe{width:100%;height:100%;border:0;display:block;position:absolute;inset:0;}
+.cam-video .cam-off{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1rem;
+  background:linear-gradient(135deg,#1A1714,#2A2520);
 }
-.reco-meta{
-  display:flex;align-items:baseline;gap:1rem;
-  margin-bottom:2rem;flex-wrap:wrap;
+.cam-off span{font-size:4rem;}
+.cam-off p{font-family:var(--serif);font-style:italic;color:rgba(255,255,255,0.4);font-size:0.9rem;}
+.cam-info{
+  padding:clamp(2rem,4vw,4rem);display:flex;flex-direction:column;justify-content:center;
+  background:var(--bg-dark2);
 }
-.reco-meta h3{
-  font-family:var(--serif);font-weight:400;font-size:1.6rem;
-  letter-spacing:-0.02em;
+.cam-badge{
+  display:inline-flex;align-items:center;gap:6px;width:fit-content;
+  font-size:0.62rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--blush);border:1px solid rgba(200,134,142,0.3);
+  padding:5px 14px;border-radius:100px;margin-bottom:1.5rem;
 }
-.reco-meta .reco-date{
-  font-size:0.82rem;color:var(--ink-faint);font-weight:300;
+.cam-badge .live-dot{width:5px;height:5px;border-radius:50%;background:#E05050;animation:pulse 1.5s infinite;}
+.cam-info h3{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(1.8rem,3vw,2.8rem);line-height:1.05;
+  margin-bottom:1rem;letter-spacing:-0.02em;
 }
-.reco-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;
+.cam-info h3 em{font-style:italic;color:var(--blush);}
+.cam-info .cam-desc{font-weight:300;color:rgba(250,247,242,0.5);font-size:0.9rem;line-height:1.65;margin-bottom:2rem;}
+.cam-links{display:flex;flex-wrap:wrap;gap:8px;}
+.cam-link{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:10px 20px;border-radius:100px;font-size:0.78rem;font-weight:400;
+  border:1px solid rgba(255,255,255,0.1);color:var(--cream);
+  transition:all 0.3s;background:transparent;
 }
+.cam-link:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2);}
+.cam-link.primary{background:var(--accent);border-color:var(--accent);}
+.cam-link.primary:hover{background:var(--accent2);}
+
+/* ===== WEEKEND PICKS — EDITORIAL SPLIT ===== */
+.reco-hero{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  min-height:500px;border-radius:var(--r);overflow:hidden;
+  background:var(--cream);border:1px solid rgba(0,0,0,0.05);
+}
+.reco-hero-img{position:relative;overflow:hidden;}
+.reco-hero-img img{width:100%;height:100%;object-fit:cover;transition:transform 8s cubic-bezier(.22,1,.36,1);}
+.reco-hero:hover .reco-hero-img img{transform:scale(1.05);}
+.reco-hero-content{
+  padding:clamp(2rem,4vw,4rem);display:flex;flex-direction:column;justify-content:center;
+}
+.reco-hero-content h3{
+  font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,2.5vw,2.4rem);
+  line-height:1.1;letter-spacing:-0.02em;margin-bottom:0.3em;
+}
+.reco-hero-content h3 em{font-style:italic;color:var(--accent);}
+.reco-hero-content .reco-date{font-size:0.78rem;color:var(--ink3);margin-bottom:1.5rem;}
+.reco-picks{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-top:1.5rem;}
 .reco-pick{
-  padding:1.5rem;border:1px solid var(--border);border-radius:var(--radius-sm);
-  background:var(--white);transition:border-color 0.25s,box-shadow 0.25s;
+  display:flex;gap:1rem;padding:1.25rem;border-radius:var(--r-sm);
+  background:var(--bg);transition:all 0.3s;border:1px solid transparent;
 }
-.reco-pick:hover{border-color:var(--sage);box-shadow:var(--shadow-sm);}
-.reco-pick-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.6rem;}
-.reco-pick-name{font-family:var(--serif);font-weight:500;font-size:1.1rem;}
-.reco-pick-status{
-  font-size:0.68rem;font-weight:500;letter-spacing:0.04em;
-  padding:3px 10px;border-radius:100px;text-transform:uppercase;
+.reco-pick:hover{background:var(--white);border-color:rgba(0,0,0,0.06);transform:translateY(-2px);}
+.reco-pick-thumb{
+  width:72px;height:72px;border-radius:var(--r-sm);overflow:hidden;flex-shrink:0;
 }
-.st-peak{background:var(--sage-light);color:var(--sage);}
-.st-blooming{background:#FEF9E7;color:#8B7420;}
-.st-ending{background:var(--blush-light);color:#9E5A62;}
-.reco-pick-img{
-  width:calc(100% + 3rem);margin:-1.5rem -1.5rem 1rem;
-  height:140px;object-fit:cover;display:block;
-  border-radius:var(--radius-sm) var(--radius-sm) 0 0;
-}
-.reco-pick-loc{
-  font-size:0.82rem;color:var(--sage);font-weight:500;margin-bottom:0.4rem;
-}
-.reco-pick-desc{font-size:0.85rem;color:var(--ink-light);line-height:1.55;margin-bottom:0.75rem;}
-.reco-pick-tip{
-  font-size:0.78rem;color:var(--terracotta);font-weight:500;
-  padding-top:0.5rem;border-top:1px solid var(--border);
-}
-.reco-footer{
-  margin-top:2rem;padding-top:1.25rem;border-top:1px solid var(--border);
-  font-family:var(--serif);font-style:italic;font-size:0.88rem;color:var(--ink-light);
-}
+.reco-pick-thumb img{width:100%;height:100%;object-fit:cover;}
+.reco-pick-info{display:flex;flex-direction:column;justify-content:center;min-width:0;}
+.reco-pick-name{font-family:var(--serif);font-weight:400;font-size:1rem;margin-bottom:0.15em;}
+.reco-pick-loc{font-size:0.75rem;color:var(--ink3);margin-bottom:0.3em;}
+.reco-pick-status{font-size:0.6rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;padding:2px 8px;border-radius:100px;}
 
-/* ===== BLOOM CARDS ===== */
-#now{scroll-margin-top:60px;}
+/* ===== BLOOM CARDS — STAGGERED EDITORIAL ===== */
 .bloom-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;
 }
 .bloom-card{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-  overflow:hidden;transition:box-shadow 0.3s,transform 0.3s;
+  background:var(--cream);border-radius:var(--r);overflow:hidden;
+  transition:transform 0.5s cubic-bezier(.22,1,.36,1),box-shadow 0.5s;
+  position:relative;
 }
-.bloom-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);}
-.card-top{
-  padding:2rem 1.75rem 1.5rem;display:flex;align-items:flex-start;
-  justify-content:space-between;gap:1rem;
+.bloom-card:nth-child(3n+2){transform:translateY(3rem);}
+.bloom-card:hover{transform:translateY(-6px);box-shadow:var(--sh-lg);}
+.bloom-card:nth-child(3n+2):hover{transform:translateY(calc(3rem - 6px));}
+.card-img{height:280px;overflow:hidden;position:relative;}
+.card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s cubic-bezier(.22,1,.36,1);}
+.bloom-card:hover .card-img img{transform:scale(1.06);}
+.card-img-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:1.25rem 1.5rem;
+  background:linear-gradient(to top,rgba(26,23,20,0.7) 0%,transparent 100%);
+  display:flex;align-items:flex-end;justify-content:space-between;
 }
-.card-top-left h3{
-  font-family:var(--serif);font-weight:500;font-size:1.35rem;
-  letter-spacing:-0.01em;margin-bottom:0.2em;
+.card-img-overlay .card-emoji{font-size:2rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3));}
+.card-img-overlay .card-st{
+  font-size:0.6rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;
+  padding:4px 12px;border-radius:100px;
+  background:rgba(255,255,255,0.2);backdrop-filter:blur(8px);color:#fff;
 }
-.card-top-left .card-time{font-size:0.82rem;color:var(--ink-faint);}
-.card-emoji{
-  font-size:2.2rem;flex-shrink:0;
-  width:52px;height:52px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  transition:transform 0.3s;
+.card-gradient{
+  height:280px;display:flex;align-items:center;justify-content:center;
+  position:relative;
 }
-.bloom-card:hover .card-emoji{transform:rotate(-8deg) scale(1.08);}
-.card-body{padding:0 1.75rem 1.25rem;}
-.card-body p{font-size:0.88rem;color:var(--ink-light);line-height:1.6;margin-bottom:1rem;}
-.card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem;}
+.card-gradient .card-emoji-big{font-size:4rem;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.1));}
+.card-content{padding:1.5rem 1.5rem 1.25rem;}
+.card-content h3{
+  font-family:var(--serif);font-weight:400;font-size:1.3rem;
+  letter-spacing:-0.01em;margin-bottom:0.15em;
+}
+.card-content .card-time{font-size:0.78rem;color:var(--ink3);display:block;margin-bottom:0.8rem;}
+.card-content p{font-size:0.85rem;color:var(--ink2);line-height:1.6;margin-bottom:1rem;}
+.card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1rem;}
 .tag{
-  padding:3px 10px;border-radius:100px;font-size:0.72rem;font-weight:500;
-  border:1px solid var(--border);color:var(--ink-light);background:var(--white);
+  padding:4px 12px;border-radius:100px;font-size:0.68rem;font-weight:500;
+  border:1px solid rgba(0,0,0,0.08);color:var(--ink2);background:var(--bg);
+  transition:all 0.2s;
 }
-.tag-more{cursor:pointer;transition:background 0.2s,border-color 0.2s;}
+.tag-more{cursor:pointer;}
 .tag-more:hover{background:var(--sage-light);border-color:var(--sage);color:var(--sage);}
-.tag-loc{cursor:default;}
+.tag-loc{cursor:default;position:relative;}
 .tag-preview{
   display:none;position:fixed;z-index:10000;
-  width:240px;border-radius:var(--radius-sm);overflow:hidden;
-  box-shadow:var(--shadow-lg);border:1px solid var(--border);
-  background:var(--card);pointer-events:none;
+  width:260px;border-radius:var(--r-sm);overflow:hidden;
+  box-shadow:var(--sh-lg);background:var(--cream);pointer-events:none;
 }
-.tag-preview img{width:100%;height:140px;object-fit:cover;display:block;}
-.tag-preview-info{padding:8px 10px;font-size:0.72rem;color:var(--ink-light);line-height:1.4;}
+.tag-preview-map{width:100%;height:110px;object-fit:cover;}
+.tag-preview-info{padding:10px 12px;font-size:0.72rem;color:var(--ink2);line-height:1.4;}
 .tag-preview-name{font-weight:500;color:var(--ink);margin-bottom:2px;}
+.tag-preview-dir{font-size:0.62rem;color:var(--sage);margin-top:3px;font-weight:500;}
 img.broken{display:none!important;}
-.card-status{
-  font-size:0.68rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;
-  padding:3px 10px;border-radius:100px;
-}
-.card-bottom{
-  padding:0.75rem 1.75rem;border-top:1px solid var(--border);
+.card-footer{
+  padding:1rem 1.5rem;border-top:1px solid rgba(0,0,0,0.05);
   display:flex;align-items:center;justify-content:space-between;
 }
 .share-btn{
   display:inline-flex;align-items:center;gap:5px;
-  font-family:var(--sans);font-size:0.78rem;font-weight:500;
-  color:var(--ink-faint);background:none;border:none;
-  cursor:pointer;padding:4px 0;transition:color 0.2s;
+  font-size:0.75rem;font-weight:400;color:var(--ink3);
+  background:none;border:none;cursor:pointer;transition:color 0.2s;
 }
-.share-btn:hover{color:var(--terracotta);}
-.share-btn svg{width:14px;height:14px;}
-.share-toast{
-  position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);
-  background:var(--ink);color:var(--ivory);
-  padding:12px 24px;border-radius:100px;
-  font-size:0.85rem;font-weight:500;
-  box-shadow:var(--shadow-lg);z-index:9000;
-  transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.4s;
-  opacity:0;pointer-events:none;
-}
-.share-toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.share-btn:hover{color:var(--accent);}
+.share-btn svg{width:13px;height:13px;}
+
+/* ===== STATUS COLORS ===== */
+.st-peak{background:var(--sage-light);color:var(--sage);}
+.st-blooming{background:#FEF9E7;color:#8B7420;}
+.st-ending{background:#F9F0F1;color:#9E5A62;}
+.st-upcoming{background:#E8EEF5;color:#4A6B8A;}
+.st-waiting{background:#EDEDED;color:#888;}
 
 /* ===== CALENDAR ===== */
-#calendar{scroll-margin-top:60px;}
-.cal-wrap{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--radius);padding:2rem;overflow-x:auto;
+#calendar .cal-wrap{
+  background:var(--cream);border-radius:var(--r);padding:2.5rem;overflow-x:auto;
+  border:1px solid rgba(0,0,0,0.05);
 }
 .cal-table{width:100%;min-width:780px;border-collapse:collapse;}
 .cal-table th{
-  font-family:var(--sans);font-size:0.72rem;font-weight:500;
-  letter-spacing:0.06em;text-transform:uppercase;
-  padding:8px 4px;text-align:center;color:var(--ink-faint);
-  border-bottom:1px solid var(--border);
+  font-size:0.68rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+  padding:10px 4px;text-align:center;color:var(--ink3);border-bottom:1px solid rgba(0,0,0,0.06);
 }
-.cal-table th.now{color:var(--terracotta);border-bottom-color:var(--terracotta);}
+.cal-table th.now{color:var(--accent);border-bottom-color:var(--accent);}
 .cal-table td{padding:5px 3px;text-align:center;vertical-align:middle;}
 .cal-table td:first-child{
   font-family:var(--serif);font-weight:400;font-size:0.88rem;
-  text-align:left;padding-left:4px;white-space:nowrap;min-width:130px;color:var(--ink);
+  text-align:left;padding-left:4px;white-space:nowrap;min-width:130px;
 }
-.bar{
-  height:22px;border-radius:11px;display:flex;align-items:center;justify-content:center;
-  font-size:0.65rem;transition:transform 0.15s;cursor:default;
-}
-.bar:hover{transform:scaleY(1.25);}
+.bar{height:24px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;transition:transform 0.2s;cursor:default;}
+.bar:hover{transform:scaleY(1.3);}
 .bar.pk{background:var(--sage);color:#fff;}
 .bar.lo{background:var(--sage-light);color:var(--sage);font-weight:500;}
-.cal-legend{display:flex;gap:1.5rem;margin-top:1.25rem;flex-wrap:wrap;}
-.cal-legend-item{display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--ink-light);}
+.cal-legend{display:flex;gap:1.5rem;margin-top:1.5rem;}
+.cal-legend-item{display:flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--ink3);}
 .cal-legend-sw{width:20px;height:10px;border-radius:5px;}
 
 /* ===== MAP ===== */
-#map-section{scroll-margin-top:60px;}
-.map-wrap{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--radius);overflow:hidden;
-}
-.map-bar{
-  padding:0.75rem 1.5rem;display:flex;gap:6px;flex-wrap:wrap;
-  border-bottom:1px solid var(--border);
-}
+.map-wrap{border-radius:var(--r);overflow:hidden;border:1px solid rgba(0,0,0,0.05);}
+.map-bar{padding:0.75rem 1.5rem;display:flex;gap:6px;flex-wrap:wrap;background:var(--cream);border-bottom:1px solid rgba(0,0,0,0.05);}
 .map-btn{
-  padding:5px 12px;border-radius:100px;
-  border:1px solid var(--border);background:var(--white);
-  font-family:var(--sans);font-size:0.78rem;font-weight:400;
-  color:var(--ink-light);cursor:pointer;transition:all 0.2s;
+  padding:6px 14px;border-radius:100px;border:1px solid rgba(0,0,0,0.08);
+  background:transparent;font-size:0.75rem;font-weight:400;color:var(--ink2);
+  cursor:pointer;transition:all 0.2s;
 }
 .map-btn:hover{border-color:var(--sage);color:var(--sage);}
-.map-btn.on{background:var(--ink);color:var(--ivory);border-color:var(--ink);}
-#leaflet-map{height:520px;width:100%;}
-
-/* leaflet overrides */
-.leaflet-popup-content-wrapper{
-  border-radius:var(--radius)!important;
-  box-shadow:var(--shadow-lg)!important;
-  font-family:var(--sans)!important;padding:0!important;
-  border:1px solid var(--border)!important;
-}
-.leaflet-popup-content{margin:0!important;min-width:230px;}
+.map-btn.on{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+#leaflet-map{height:560px;}
+.leaflet-popup-content-wrapper{border-radius:var(--r)!important;box-shadow:var(--sh-lg)!important;font-family:var(--sans)!important;padding:0!important;border:1px solid rgba(0,0,0,0.05)!important;}
+.leaflet-popup-content{margin:0!important;min-width:240px;}
 .leaflet-popup-tip{box-shadow:none!important;}
 .pop{padding:1.25rem 1.5rem;}
-.pop h4{font-family:var(--serif);font-weight:500;font-size:1.05rem;margin-bottom:0.3em;}
-.pop-flowers{font-size:0.8rem;color:var(--sage);font-weight:500;margin-bottom:0.4em;}
-.pop-desc{font-size:0.82rem;color:var(--ink-light);line-height:1.5;margin-bottom:0.6em;}
-.pop-st{
-  display:inline-block;padding:2px 10px;border-radius:100px;
-  font-size:0.65rem;font-weight:500;text-transform:uppercase;letter-spacing:0.04em;
-}
+.pop h4{font-family:var(--serif);font-weight:400;font-size:1.1rem;margin-bottom:0.3em;}
+.pop-flowers{font-size:0.78rem;color:var(--sage);font-weight:500;margin-bottom:0.4em;}
+.pop-desc{font-size:0.8rem;color:var(--ink2);line-height:1.5;margin-bottom:0.5em;}
+.pop-st{display:inline-block;padding:2px 10px;border-radius:100px;font-size:0.62rem;font-weight:500;text-transform:uppercase;letter-spacing:0.04em;}
+.pop-dir{display:block;margin-top:0.5em;}
+.pop-dir a{font-size:0.72rem;font-weight:500;color:var(--accent);display:inline-flex;align-items:center;gap:4px;}
+.pop-dir a:hover{text-decoration:underline;}
 .bloom-marker{
   display:flex;align-items:center;justify-content:center;
-  width:34px;height:34px;border-radius:50%;
-  border:2.5px solid var(--white);
-  box-shadow:0 2px 10px rgba(28,25,23,0.18);
-  font-size:1rem;cursor:pointer;transition:transform 0.2s;
+  width:36px;height:36px;border-radius:50%;border:2.5px solid var(--white);
+  box-shadow:0 3px 14px rgba(26,23,20,0.2);font-size:1rem;
+  transition:transform 0.3s cubic-bezier(.34,1.56,.64,1);
 }
-.bloom-marker:hover{transform:scale(1.2);}
+.bloom-marker:hover{transform:scale(1.3) translateY(-3px);}
 
 /* ===== FOOTER ===== */
 footer{
-  text-align:center;padding:4rem 1.5rem 3rem;
-  border-top:1px solid var(--border);
+  padding:clamp(4rem,8vw,8rem) clamp(1.5rem,4vw,3rem) 3rem;
+  text-align:center;border-top:1px solid rgba(0,0,0,0.06);
 }
-footer p{font-family:var(--serif);font-style:italic;color:var(--ink-faint);font-size:0.9rem;}
-footer .f-sm{font-family:var(--sans);font-style:normal;font-size:0.75rem;margin-top:0.5rem;}
+footer .f-logo{font-family:var(--serif);font-size:clamp(2rem,4vw,3.5rem);letter-spacing:-0.03em;margin-bottom:1rem;}
+footer .f-logo em{font-style:italic;color:var(--accent);}
+footer p{font-size:0.82rem;color:var(--ink3);font-weight:300;line-height:1.6;}
+footer .f-links{display:flex;justify-content:center;gap:2rem;margin-top:1.5rem;flex-wrap:wrap;}
+footer .f-links a{font-size:0.75rem;color:var(--ink3);transition:color 0.2s;}
+footer .f-links a:hover{color:var(--accent);}
+
+/* ===== TOAST ===== */
+.share-toast{
+  position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--ink);color:var(--cream);padding:12px 28px;border-radius:100px;
+  font-size:0.82rem;font-weight:400;box-shadow:var(--sh-lg);z-index:9000;
+  transition:transform 0.4s cubic-bezier(.34,1.56,.64,1),opacity 0.4s;opacity:0;pointer-events:none;
+}
+.share-toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+/* ===== REVEAL ===== */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.8s cubic-bezier(.22,1,.36,1),transform 0.8s cubic-bezier(.22,1,.36,1);}
+.reveal.vis{opacity:1;transform:none;}
+.reveal-stagger>*{opacity:0;transform:translateY(20px);transition:opacity 0.6s cubic-bezier(.22,1,.36,1),transform 0.6s cubic-bezier(.22,1,.36,1);}
+.reveal-stagger.vis>*{opacity:1;transform:none;}
+.reveal-stagger.vis>*:nth-child(1){transition-delay:0s;}
+.reveal-stagger.vis>*:nth-child(2){transition-delay:0.08s;}
+.reveal-stagger.vis>*:nth-child(3){transition-delay:0.16s;}
+.reveal-stagger.vis>*:nth-child(4){transition-delay:0.24s;}
+.reveal-stagger.vis>*:nth-child(5){transition-delay:0.32s;}
+.reveal-stagger.vis>*:nth-child(6){transition-delay:0.4s;}
 
 /* ===== RESPONSIVE ===== */
-@media(max-width:768px){
-  .bloom-grid,.reco-grid{grid-template-columns:1fr;}
-  #leaflet-map{height:380px;}
-  .section{padding:3.5rem 1rem;}
-  .reco-card{padding:1.5rem;}
-  .card-top{padding:1.5rem 1.25rem 1rem;}
-  .card-body{padding:0 1.25rem 1rem;}
-  .card-bottom{padding:0.75rem 1.25rem;}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-img{height:50vh;order:-1;}
+  .hero-img::after{background:linear-gradient(to top,var(--bg) 0%,transparent 30%);}
+  .hero-content{padding:2rem 1.5rem 4rem;}
+  .cam-grid{grid-template-columns:1fr;}
+  .cam-video{min-height:250px;}
+  .reco-hero{grid-template-columns:1fr;}
+  .reco-hero-img{height:250px;}
+  .bloom-grid{grid-template-columns:1fr;}
+  .bloom-card:nth-child(3n+2){transform:none;}
+  .bloom-card:nth-child(3n+2):hover{transform:translateY(-6px);}
+  .nav-links{display:none;}
+  .cursor-dot,.cursor-ring{display:none;}
 }
-
-/* ===== FADE ===== */
-.fi{opacity:0;transform:translateY(16px);transition:opacity 0.5s,transform 0.5s;}
-.fi.vis{opacity:1;transform:none;}
+@media(min-width:901px) and (max-width:1100px){
+  .bloom-grid{grid-template-columns:repeat(2,1fr);}
+  .bloom-card:nth-child(3n+2){transform:none;}
+  .bloom-card:nth-child(2n){transform:translateY(2rem);}
+  .bloom-card:nth-child(2n):hover{transform:translateY(calc(2rem - 6px));}
+}
 </style>
 </head>
 <body>
 
-<!-- HERO -->
-<section class="hero" id="top">
-  <div class="hero-badge"><span class="dot"></span> <span id="hero-count">Loading</span></div>
-  <h1>DMV<br><em>Blooms</em></h1>
-  <p class="hero-sub">A field guide to the flowers of DC, Maryland & Virginia, updated for the season so you always know where to go.</p>
-  <a href="#reco" class="hero-cta">
-    See this weekend's picks
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-  </a>
-  <div class="hero-scroll">scroll to explore</div>
-</section>
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+<div class="scroll-progress" id="scroll-progress"></div>
 
 <!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
-    <div class="nav-logo">DMV <span>Blooms</span></div>
-    <div class="nav-tabs">
-      <button class="nav-tab active" data-t="reco">This Weekend</button>
-      <button class="nav-tab" data-t="now">Blooming Now</button>
-      <button class="nav-tab" data-t="calendar">Calendar</button>
-      <button class="nav-tab" data-t="map-section">Map</button>
-    </div>
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="#top">DMV <em>Blooms</em></a>
+  <div class="nav-links">
+    <a class="nav-link" href="#livecam">Live Cam</a>
+    <a class="nav-link active" href="#reco">This Weekend</a>
+    <a class="nav-link" href="#now">Blooming</a>
+    <a class="nav-link" href="#calendar">Calendar</a>
+    <a class="nav-link" href="#map-section">Map</a>
   </div>
 </nav>
 
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span class="dot"></span> <span id="hero-count">Loading</span></div>
+    <h1>DMV<br><em>Blooms</em></h1>
+    <p class="hero-sub">Your wildly opinionated field guide to the flowers of DC, Maryland & Virginia. We do the scouting so you can skip the crowds.</p>
+    <a href="#reco" class="hero-cta">
+      See this weekend's picks
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+    </a>
+    <div class="hero-scroll"><span class="line"></span> Scroll to explore</div>
+  </div>
+  <div class="hero-img">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Washington_C_D.C._Tidal_Basin_cherry_trees.jpg?width=1200" alt="Cherry blossoms at the Tidal Basin" id="hero-photo">
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee"><div class="marquee-track" id="marquee"></div></div>
+
+<!-- LIVE CAM -->
+<section class="sec cam-section" id="livecam">
+  <div class="sec-inner">
+    <div class="sec-eyebrow reveal">Live</div>
+    <h2 class="sec-title reveal">Bloom <em>cams</em></h2>
+    <p class="sec-desc reveal">Watch the magic happen in real time. Because refreshing a webcam every 30 seconds is a perfectly valid use of your afternoon.</p>
+    <div id="cam-container" class="reveal"></div>
+  </div>
+</section>
+
 <!-- RECO -->
-<section class="section" id="reco">
-  <div class="section-label fi">This Weekend</div>
-  <h2 class="section-title fi" id="reco-title"></h2>
-  <p class="section-desc fi">Our picks for the best bloom-chasing this weekend, based on what's peaking right now.</p>
-  <div id="reco-container" class="fi"></div>
+<section class="sec" id="reco">
+  <div class="sec-inner">
+    <div class="sec-eyebrow reveal">This Weekend</div>
+    <h2 class="sec-title reveal" id="reco-title"></h2>
+    <p class="sec-desc reveal">We checked, so you don't have to show up to a field of dirt.</p>
+    <div id="reco-container"></div>
+  </div>
 </section>
 
 <!-- NOW -->
-<section class="section" id="now">
-  <div class="section-label fi">Field Guide</div>
-  <h2 class="section-title fi">What's blooming now</h2>
-  <p class="section-desc fi" id="now-desc"></p>
-  <div class="bloom-grid" id="bloom-grid"></div>
+<section class="sec" id="now">
+  <div class="sec-inner">
+    <div class="sec-eyebrow reveal">Field Guide</div>
+    <h2 class="sec-title reveal">What's blooming <em>now</em></h2>
+    <p class="sec-desc reveal" id="now-desc"></p>
+    <div class="bloom-grid" id="bloom-grid"></div>
+  </div>
 </section>
 
 <!-- CALENDAR -->
-<section class="section" id="calendar">
-  <div class="section-label fi">Seasonality</div>
-  <h2 class="section-title fi">The bloom calendar</h2>
-  <p class="section-desc fi">A year of DMV flowers at a glance. Plan ahead, or just see what's next.</p>
-  <div class="cal-wrap fi">
-    <table class="cal-table" id="cal-table"></table>
-    <div class="cal-legend">
-      <div class="cal-legend-item"><div class="cal-legend-sw" style="background:var(--sage)"></div>Peak bloom</div>
-      <div class="cal-legend-item"><div class="cal-legend-sw" style="background:var(--sage-light)"></div>Early / late bloom</div>
+<section class="sec" id="calendar">
+  <div class="sec-inner">
+    <div class="sec-eyebrow reveal">Seasonality</div>
+    <h2 class="sec-title reveal">The bloom <em>calendar</em></h2>
+    <p class="sec-desc reveal">A year of DMV flowers at a glance. Plan ahead, or just see what's next.</p>
+    <div class="cal-wrap reveal">
+      <table class="cal-table" id="cal-table"></table>
+      <div class="cal-legend">
+        <div class="cal-legend-item"><div class="cal-legend-sw" style="background:var(--sage)"></div>Peak bloom</div>
+        <div class="cal-legend-item"><div class="cal-legend-sw" style="background:var(--sage-light)"></div>Early / late bloom</div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- MAP -->
-<section class="section" id="map-section">
-  <div class="section-label fi">Explore</div>
-  <h2 class="section-title fi">Find your bloom</h2>
-  <p class="section-desc fi">20 of our favorite spots across the DMV. Tap a pin to see what's there.</p>
-  <div class="map-wrap fi">
-    <div class="map-bar" id="map-bar"></div>
-    <div id="leaflet-map"></div>
+<section class="sec" id="map-section">
+  <div class="sec-inner">
+    <div class="sec-eyebrow reveal">Explore</div>
+    <h2 class="sec-title reveal">Find your <em>bloom</em></h2>
+    <p class="sec-desc reveal">20 of our favorite spots across the DMV. Tap a pin to see what's there.</p>
+    <div class="map-wrap reveal">
+      <div class="map-bar" id="map-bar"></div>
+      <div id="leaflet-map"></div>
+    </div>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-  <p>Made for the DMV flower-chasing community.</p>
-  <p class="f-sm">Bloom times are approximate and vary by weather. Check with locations before visiting.</p>
-  <p class="f-sm" style="margin-top:1rem;">&copy; <script>document.write(new Date().getFullYear())</script> Isfar Baset. All rights reserved. Want to contribute? <a href="https://github.com/isfarbaset/dmv-blooms" style="color:var(--sage);text-decoration:underline;">Open an issue or PR on GitHub.</a></p>
+  <div class="f-logo">DMV <em>Blooms</em></div>
+  <p>Made for the DMV flower-chasing community.<br>Bloom times are approximate and vary by weather.</p>
+  <div class="f-links">
+    <a href="#top">Back to top</a>
+    <a href="https://github.com/isfarbaset/dmv-blooms" target="_blank">GitHub</a>
+    <span style="font-size:0.75rem;color:var(--ink4);">&copy; <script>document.write(new Date().getFullYear())</script> Isfar Baset</span>
+  </div>
 </footer>
 
-<!-- share toast -->
 <div class="share-toast" id="share-toast">Link copied!</div>
 
 <script>
@@ -454,13 +538,13 @@ const NOW=new Date(),CM=NOW.getMonth(),CD=NOW.getDate();
 
 const BLOOMS=[
   {n:"Cherry Blossoms",e:"🌸",mo:[2,3],pk:[2,3],wk:"Late Mar – Early Apr",d:"DC's signature bloom. Yoshino cherries turn the Tidal Basin into clouds of pale pink. Kwanzan varieties follow two to three weeks later with deeper color.",c:"#FADADD",loc:["Tidal Basin","National Arboretum","Kenwood, MD","Hains Point","Congressional Cemetery"]},
-  {n:"Magnolias",e:"🪷",mo:[2,3],pk:[2],wk:"Early – Mid Mar",d:"Saucer magnolias in pink, white and purple appear a few weeks before the cherries. Enormous blooms, surprisingly fragrant.",c:"#F0E4EC",loc:["Enid Haupt Garden","Dumbarton Oaks","Rock Creek Park","Hillwood Estate"]},
-  {n:"Tulips",e:"🌷",mo:[3,4],pk:[3],wk:"Early – Mid Apr",d:"Every color you can imagine. The Floral Library has 10,000 bulbs in 93 beds. Burnside Farms in Nokesville plants two million across 30 varieties.",c:"#FDE8E0",loc:["Floral Library","Burnside Farms, VA","Netherlands Carillon","U.S. Capitol Grounds"]},
-  {n:"Bluebells",e:"🔵",mo:[2,3],pk:[3],wk:"Late Mar – Mid Apr",d:"Virginia bluebells carpet riverside forests in waves of purple-blue. Blink and you'll miss them. The season is short and enchanting.",c:"#DAE5F0",loc:["Bull Run Regional Park","Riverbend Park, VA","C&O Canal","Great Falls Park"]},
+  {n:"Magnolias",e:"🪷",mo:[2,3],pk:[2],wk:"Early – Mid Mar",d:"Saucer magnolias in pink, white and purple appear before the cherries steal all the attention. Enormous blooms, surprisingly fragrant.",c:"#F0E4EC",loc:["Enid Haupt Garden","Dumbarton Oaks","Rock Creek Park","Hillwood Estate"]},
+  {n:"Tulips",e:"🌷",mo:[3,4],pk:[3],wk:"Early – Mid Apr",d:"Every color you can imagine. The Floral Library has 10,000 bulbs in 93 beds. Burnside Farms plants two million.",c:"#FDE8E0",loc:["Floral Library","Burnside Farms, VA","Netherlands Carillon","U.S. Capitol Grounds"]},
+  {n:"Bluebells",e:"🔵",mo:[2,3],pk:[3],wk:"Late Mar – Mid Apr",d:"Virginia bluebells carpet riverside forests in waves of purple-blue. Blink and you'll miss them — the season is heartbreakingly short.",c:"#DAE5F0",loc:["Bull Run Regional Park","Riverbend Park, VA","C&O Canal","Great Falls Park"]},
   {n:"Azaleas",e:"🌺",mo:[3,4],pk:[3,4],wk:"Late Apr – Mid May",d:"Mount Hamilton at the Arboretum becomes a hillside of red, pink, purple and white. Peak happens in stages over several weeks.",c:"#F5DDE2",loc:["National Arboretum","Franciscan Monastery","Brookside Gardens, MD","Dumbarton Oaks"]},
   {n:"Wisteria",e:"💜",mo:[3,4],pk:[3,4],wk:"Apr – May",d:"Cascading purple racemes dripping from pergolas and stone walls. Dumbarton Oaks and Georgetown's R Street are the spots.",c:"#E6DDF0",loc:["Dumbarton Oaks","Georgetown streets","Tudor Place","National Cathedral"]},
   {n:"Lilacs",e:"🪻",mo:[3],pk:[3],wk:"April",d:"Fragrant purple and white clusters. Georgetown's lilac-covered walls are a spring tradition worth seeking out.",c:"#E2D8EE",loc:["Georgetown","Dumbarton Oaks","National Arboretum"]},
-  {n:"Roses",e:"🌹",mo:[5,6,7],pk:[5,6],wk:"Jun – Aug",d:"Summer heat brings out the roses. The Botanic Garden's collection and the Bon Air Rose Garden in Arlington are standouts.",c:"#F5DCDC",loc:["U.S. Botanic Garden","Franciscan Monastery","Bon Air Rose Garden, VA","Brookside Gardens, MD"]},
+  {n:"Roses",e:"🌹",mo:[5,6,7],pk:[5,6],wk:"Jun – Aug",d:"Summer heat brings out the roses. The Botanic Garden's collection and Bon Air Rose Garden in Arlington are standouts.",c:"#F5DCDC",loc:["U.S. Botanic Garden","Franciscan Monastery","Bon Air Rose Garden, VA","Brookside Gardens, MD"]},
   {n:"Hydrangeas",e:"💠",mo:[5,6,7],pk:[5,6],wk:"Jun – Jul",d:"Big clusters of blue, pink and white that love the DMV's humidity. Yards Park has a surprisingly good showing.",c:"#DAE5EF",loc:["Yards Park","Georgetown","Franciscan Monastery","Tudor Place"]},
   {n:"Lavender",e:"💐",mo:[5,6],pk:[5,6],wk:"Jun – Jul",d:"Rolling fields of fragrant purple at farms across Maryland and Virginia. Many open for pick-your-own season.",c:"#E6DDF0",loc:["Seven Oaks Lavender Farm, VA","Soleado Lavender Farm, MD","Springfield Manor, MD"]},
   {n:"Lotus & Water Lilies",e:"🪷",mo:[6,7],pk:[6,7],wk:"Jul – Aug",d:"Kenilworth Aquatic Gardens is the only national park dedicated to water flowers. Go early morning for the best blooms.",c:"#DEF0E4",loc:["Kenilworth Aquatic Gardens"]},
@@ -469,141 +553,148 @@ const BLOOMS=[
 
 const LOCS=[
   {n:"Tidal Basin",la:38.8822,ln:-77.0365,fl:["Cherry Blossoms","Tulips"],d:"3,000+ cherry trees along the water. Sunrise visits are magical and crowd-free.",r:"DC",c:"#FADADD",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Washington_C_D.C._Tidal_Basin_cherry_trees.jpg?width=640"},
-  {n:"National Arboretum",la:38.9126,ln:-76.9658,fl:["Azaleas","Cherry Blossoms","Magnolias"],d:"446 free acres. The azalea hillside is worth the drive to NE. No tickets needed.",r:"DC",c:"#F5DDE2",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Azaleas_at_National_Arboretum_-_Flickr_-_treegrow_(3).jpg?width=640"},
-  {n:"Enid Haupt Garden",la:38.8883,ln:-77.0259,fl:["Magnolias","Tulips"],d:"Behind the Smithsonian Castle. The saucer magnolias here are some of the best in the city. Free.",r:"DC",c:"#F0E4EC",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Smithsonian_Castle,_Viewed_from_the_Enid_A._Haupt_Garden_(2014).jpg?width=640"},
-  {n:"Dumbarton Oaks",la:38.9148,ln:-77.0632,fl:["Wisteria","Magnolias","Azaleas","Lilacs"],d:"Georgetown's wisteria pergola is iconic. $15 tickets. Book early in spring, they sell out.",r:"DC",c:"#E6DDF0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Dumbarton_Oaks_in_April_(16554145514).jpg?width=640"},
-  {n:"Kenwood",la:38.9685,ln:-77.1092,fl:["Cherry Blossoms"],d:"A residential neighborhood in Bethesda with cherry-lined streets. Free to walk, feels like a secret.",r:"MD",c:"#FADADD",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Kenwood_Cherry_Blossoms_Bethesda_MD_2022-03-25_15-59-00_1.jpg?width=640"},
+  {n:"National Arboretum",la:38.9126,ln:-76.9658,fl:["Azaleas","Cherry Blossoms","Magnolias"],d:"446 free acres. The azalea hillside is worth the drive to NE.",r:"DC",c:"#F5DDE2",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Azaleas_at_National_Arboretum_-_Flickr_-_treegrow_(3).jpg?width=640"},
+  {n:"Enid Haupt Garden",la:38.8883,ln:-77.0259,fl:["Magnolias","Tulips"],d:"Behind the Smithsonian Castle. The saucer magnolias here are some of the best in the city.",r:"DC",c:"#F0E4EC",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Smithsonian_Castle,_Viewed_from_the_Enid_A._Haupt_Garden_(2014).jpg?width=640"},
+  {n:"Dumbarton Oaks",la:38.9148,ln:-77.0632,fl:["Wisteria","Magnolias","Azaleas","Lilacs"],d:"Georgetown's wisteria pergola is iconic. $15 tickets. Book early.",r:"DC",c:"#E6DDF0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Dumbarton_Oaks_in_April_(16554145514).jpg?width=640"},
+  {n:"Kenwood",la:38.9685,ln:-77.1092,fl:["Cherry Blossoms"],d:"Cherry-lined streets in Bethesda. Free to walk, feels like a secret.",r:"MD",c:"#FADADD",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Kenwood_Cherry_Blossoms_Bethesda_MD_2022-03-25_15-59-00_1.jpg?width=640"},
   {n:"Brookside Gardens",la:39.0562,ln:-77.0484,fl:["Azaleas","Tulips","Roses"],d:"50-acre public garden in Wheaton. Free admission, beautiful in every season.",r:"MD",c:"#DEF0E4",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Flowers_of_Brookside_Gardens_2020b.jpg?width=640"},
-  {n:"Burnside Farms",la:38.6965,ln:-77.5555,fl:["Tulips","Sunflowers"],d:"Two million tulips. The Festival of Spring is a must. Tickets required, sells out fast.",r:"VA",c:"#FDE8E0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Tulip_Farm_(Clackamas_County,_Oregon_scenic_images)_(clacDA0045a).jpg?width=640"},
-  {n:"Bull Run Regional Park",la:38.8029,ln:-77.4658,fl:["Bluebells"],d:"Bluebell-carpeted forests along the river in Centreville. Magical and free.",r:"VA",c:"#DAE5F0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/2019-04-13_13_46_30_Bluebells_along_the_Bull_Run-Occoquan_Trail_in_Hemlock_Overlook_Regional_Park_in_Fairfax_County,_Virginia.jpg?width=640"},
+  {n:"Burnside Farms",la:38.6965,ln:-77.5555,fl:["Tulips","Sunflowers"],d:"Two million tulips. The Festival of Spring is a must.",r:"VA",c:"#FDE8E0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Tulip_Farm_(Clackamas_County,_Oregon_scenic_images)_(clacDA0045a).jpg?width=640"},
+  {n:"Bull Run Regional Park",la:38.8029,ln:-77.4658,fl:["Bluebells"],d:"Bluebell-carpeted forests along the river. Magical and free.",r:"VA",c:"#DAE5F0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/2019-04-13_13_46_30_Bluebells_along_the_Bull_Run-Occoquan_Trail_in_Hemlock_Overlook_Regional_Park_in_Fairfax_County,_Virginia.jpg?width=640"},
   {n:"Riverbend Park",la:39.0210,ln:-77.2478,fl:["Bluebells"],d:"Annual Bluebell Festival with wildflower walks, live music, and food trucks.",r:"VA",c:"#DAE5F0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Virginia_Bluebells_-_Mertensia_virginica,_Riverbend_Park,_Great_Falls,_Virginia.jpg?width=640"},
-  {n:"Franciscan Monastery",la:38.9333,ln:-76.9928,fl:["Azaleas","Roses","Tulips"],d:"DC's best-kept garden secret. Free tours on Saturdays, April through September.",r:"DC",c:"#F5DDE2",img:"https://commons.wikimedia.org/wiki/Special:FilePath/FranciscanMonasteryWashingtonDC.jpg?width=640"},
-  {n:"Kenilworth Aquatic Gardens",la:38.9130,ln:-76.9408,fl:["Lotus & Water Lilies"],d:"The only national park for aquatic flowers. Early morning in summer is the move.",r:"DC",c:"#DEF0E4",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Lotus_pads_and_receptacle_Kenilworth_Aquatic_Garden_DC_20220518_184259547.jpg?width=640"},
+  {n:"Franciscan Monastery",la:38.9333,ln:-76.9928,fl:["Azaleas","Roses","Tulips"],d:"DC's best-kept garden secret. Free tours on Saturdays.",r:"DC",c:"#F5DDE2",img:"https://commons.wikimedia.org/wiki/Special:FilePath/FranciscanMonasteryWashingtonDC.jpg?width=640"},
+  {n:"Kenilworth Aquatic Gardens",la:38.9130,ln:-76.9408,fl:["Lotus & Water Lilies"],d:"The only national park for aquatic flowers. Go early morning.",r:"DC",c:"#DEF0E4",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Lotus_pads_and_receptacle_Kenilworth_Aquatic_Garden_DC_20220518_184259547.jpg?width=640"},
   {n:"McKee-Beshers WMA",la:39.0925,ln:-77.3088,fl:["Sunflowers"],d:"30+ acres of sunflowers in Poolesville. Free. Bring bug spray.",r:"MD",c:"#F5F0D6",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Sunflowers_McKee-Beshers_WMA_360_pano_2025-07-25_09-13-17_1.jpg?width=640"},
-  {n:"Netherlands Carillon",la:38.8916,ln:-77.0663,fl:["Tulips"],d:"Tulip fields around a bell tower gifted by the Netherlands after WWII. Great monument views.",r:"VA",c:"#FDE8E0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Tulips_at_the_Netherlands_Carillon_in_Arlington,_Virginia_-_Stierch.jpg?width=640"},
-  {n:"Georgetown Streets",la:38.9109,ln:-77.0595,fl:["Wisteria","Lilacs","Hydrangeas"],d:"R Street and 31st Street. Wisteria walls and lilac-draped rowhouses. Free and very Instagrammable.",r:"DC",c:"#E6DDF0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/2916-2924_N_Street_NW.jpg?width=640"},
-  {n:"National Cathedral",la:38.9306,ln:-77.0708,fl:["Wisteria","Cherry Blossoms"],d:"The Bishop's Garden is a hidden medieval-style retreat. Olmsted Woods has old-growth forest.",r:"DC",c:"#E6DDF0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Bishop's_Garden_at_the_National_Cathedral.jpg?width=640"},
-  {n:"U.S. Botanic Garden",la:38.8882,ln:-77.0128,fl:["Roses"],d:"Living plant museum at the foot of Capitol Hill. Free admission, year-round displays.",r:"DC",c:"#F5DCDC",img:"https://commons.wikimedia.org/wiki/Special:FilePath/United_States_Botanic_Garden_Washington_April_2017_002.jpg?width=640"},
-  {n:"Hains Point",la:38.8630,ln:-77.0227,fl:["Cherry Blossoms"],d:"East Potomac Park's quiet tip. Fewer crowds than the Tidal Basin, beautiful waterfront trees.",r:"DC",c:"#FADADD",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Morning_moon_over_Arlington_Cemetery_seen_through_some_cherry_blossoms_in_Hains_Point_(25909117012).jpg?width=640"},
-  {n:"Floral Library",la:38.8847,ln:-77.0317,fl:["Tulips"],d:"10,000 tulip bulbs in 93 beds. Part of Lady Bird Johnson's beautification project. Free.",r:"DC",c:"#FDE8E0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/First_Division_Monument_with_tulips_-_Washington,_DC_-_DSC08284.JPG?width=640"},
-  {n:"Congressional Cemetery",la:38.8794,ln:-76.9793,fl:["Cherry Blossoms"],d:"Historic and peaceful. Beautiful cherry trees, fewer crowds, dogs welcome on-leash.",r:"DC",c:"#FADADD",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Washington,_DC_-_Congressional_Cemetery_-_51092506869.jpg?width=640"},
-  {n:"Lady Bird Johnson Park",la:38.8790,ln:-77.0490,fl:["Cherry Blossoms"],d:"Thousands of daffodils in early spring plus weeping cherries. Lincoln Memorial views across the river.",r:"VA",c:"#F5F0D6",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Daffodils_in_Lady_Bird_Johnson_Memorial_Park_-_2011.jpg?width=640"},
+  {n:"Netherlands Carillon",la:38.8916,ln:-77.0663,fl:["Tulips"],d:"Tulip fields around a bell tower gifted by the Netherlands after WWII.",r:"VA",c:"#FDE8E0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Tulips_at_the_Netherlands_Carillon_in_Arlington,_Virginia_-_Stierch.jpg?width=640"},
+  {n:"Georgetown Streets",la:38.9109,ln:-77.0595,fl:["Wisteria","Lilacs","Hydrangeas"],d:"R Street and 31st Street. Wisteria walls and lilac-draped rowhouses.",r:"DC",c:"#E6DDF0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/2916-2924_N_Street_NW.jpg?width=640"},
+  {n:"National Cathedral",la:38.9306,ln:-77.0708,fl:["Wisteria","Cherry Blossoms"],d:"The Bishop's Garden is a hidden medieval-style retreat.",r:"DC",c:"#E6DDF0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Bishop's_Garden_at_the_National_Cathedral.jpg?width=640"},
+  {n:"U.S. Botanic Garden",la:38.8882,ln:-77.0128,fl:["Roses"],d:"Living plant museum at the foot of Capitol Hill. Free admission.",r:"DC",c:"#F5DCDC",img:"https://commons.wikimedia.org/wiki/Special:FilePath/United_States_Botanic_Garden_Washington_April_2017_002.jpg?width=640"},
+  {n:"Hains Point",la:38.8630,ln:-77.0227,fl:["Cherry Blossoms"],d:"East Potomac Park's quiet tip. Fewer crowds, beautiful waterfront trees.",r:"DC",c:"#FADADD",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Morning_moon_over_Arlington_Cemetery_seen_through_some_cherry_blossoms_in_Hains_Point_(25909117012).jpg?width=640"},
+  {n:"Floral Library",la:38.8847,ln:-77.0317,fl:["Tulips"],d:"10,000 tulip bulbs in 93 beds. Part of Lady Bird Johnson's project. Free.",r:"DC",c:"#FDE8E0",img:"https://commons.wikimedia.org/wiki/Special:FilePath/First_Division_Monument_with_tulips_-_Washington,_DC_-_DSC08284.JPG?width=640"},
+  {n:"Congressional Cemetery",la:38.8794,ln:-76.9793,fl:["Cherry Blossoms"],d:"Historic and peaceful. Beautiful cherry trees, fewer crowds.",r:"DC",c:"#FADADD",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Washington,_DC_-_Congressional_Cemetery_-_51092506869.jpg?width=640"},
+  {n:"Lady Bird Johnson Park",la:38.8790,ln:-77.0490,fl:["Cherry Blossoms"],d:"Thousands of daffodils in early spring plus weeping cherries.",r:"VA",c:"#F5F0D6",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Daffodils_in_Lady_Bird_Johnson_Memorial_Park_-_2011.jpg?width=640"},
 ];
 
-// STATUS
 function status(b){
-  if(b.n==="Cherry Blossoms"){
-    if(CM===2&&CD>=20)return"peak";if(CM===3&&CD<=10)return"peak";
-    if(CM===3)return"ending";if(CM===2)return"blooming";
-  }
-  if(b.pk.includes(CM))return"peak";
-  if(b.mo.includes(CM))return"blooming";
-  if(b.mo.includes((CM+1)%12)||b.mo.includes((CM+2)%12))return"upcoming";
-  return"waiting";
+  if(b.n==="Cherry Blossoms"){if(CM===2&&CD>=20)return"peak";if(CM===3&&CD<=10)return"peak";if(CM===3)return"ending";if(CM===2)return"blooming";}
+  if(b.pk.includes(CM))return"peak";if(b.mo.includes(CM))return"blooming";
+  if(b.mo.includes((CM+1)%12)||b.mo.includes((CM+2)%12))return"upcoming";return"waiting";
 }
 function stLabel(s){return{peak:"Peak bloom",blooming:"Blooming",ending:"Fading",upcoming:"Coming soon",waiting:"Dormant"}[s]||s;}
 function stClass(s){return{peak:"st-peak",blooming:"st-blooming",ending:"st-ending",upcoming:"st-upcoming",waiting:"st-waiting"}[s]||"";}
-function emoji(name){const b=BLOOMS.find(x=>x.n===name);return b?b.e:"🌼";}
+function emoji(n){const b=BLOOMS.find(x=>x.n===n);return b?b.e:"🌼";}
 function locStatus(loc){
   let best="waiting";const ord=["peak","blooming","ending","upcoming","waiting"];
-  loc.fl.forEach(f=>{const b=BLOOMS.find(x=>x.n===f);if(b){const s=status(b);if(ord.indexOf(s)<ord.indexOf(best))best=s;}});
-  return best;
+  loc.fl.forEach(f=>{const b=BLOOMS.find(x=>x.n===f);if(b){const s=status(b);if(ord.indexOf(s)<ord.indexOf(best))best=s;}});return best;
 }
+function miniMapUrl(la,ln,z){z=z||14;const x=Math.floor((ln+180)/360*Math.pow(2,z));const lr=la*Math.PI/180;const y=Math.floor((1-Math.log(Math.tan(lr)+1/Math.cos(lr))/Math.PI)/2*Math.pow(2,z));return`https://tile.openstreetmap.org/${z}/${x}/${y}.png`;}
 
-// LOC TAG WITH PHOTO PREVIEW
 function locTag(locName,hidden){
   const loc=LOCS.find(x=>x.n===locName||locName.startsWith(x.n));
-  const cls=hidden?'tag tag-loc tag-hidden':'tag tag-loc';
-  const style=hidden?' style="display:none"':'';
-  if(loc&&loc.img){
-    return `<span class="${cls}"${style}>${locName}<span class="tag-preview"><img src="${loc.img}" alt="${loc.n}" loading="lazy" onerror="this.classList.add('broken')"><div class="tag-preview-info"><div class="tag-preview-name">${loc.n}</div>${loc.d}</div></span></span>`;
-  }
-  return `<span class="${hidden?'tag tag-hidden':'tag'}"${style}>${locName}</span>`;
+  const cls=hidden?'tag tag-loc tag-hidden':'tag tag-loc';const style=hidden?' style="display:none"':'';
+  if(loc){const mu=miniMapUrl(loc.la,loc.ln,14);return`<span class="${cls}"${style}>${locName}<span class="tag-preview" data-lat="${loc.la}" data-lng="${loc.ln}"><img class="tag-preview-map" src="${mu}" alt="Map" loading="lazy" onerror="this.src='${loc.img}'"><div class="tag-preview-info"><div class="tag-preview-name">${loc.n}</div>${loc.d}<div class="tag-preview-dir">📍 ${loc.r}</div></div></span></span>`;}
+  return`<span class="${hidden?'tag tag-hidden':'tag'}"${style}>${locName}</span>`;
 }
 
-// SHARE
 const SHARE_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>';
+function showToast(m){const t=document.getElementById('share-toast');t.textContent=m||'Link copied!';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
 
-function shareBloom(bloom){
-  const text=`${bloom.e} ${bloom.n} - ${stLabel(status(bloom)).toLowerCase()} in the DMV right now!\n\nBest spots: ${bloom.loc.slice(0,3).join(', ')}\nPeak: ${bloom.wk}\n\n🌿 isfarbaset.github.io/dmv-blooms`;
-
-  if(navigator.share){
-    navigator.share({title:`${bloom.n} - DMV Blooms`,text}).catch(()=>{});
-  } else {
-    navigator.clipboard.writeText(text).then(()=>{
-      const t=document.getElementById('share-toast');
-      t.classList.add('show');
-      setTimeout(()=>t.classList.remove('show'),2200);
-    });
+async function shareBloom(bloom,cardEl){
+  const text=`${bloom.e} ${bloom.n} — ${stLabel(status(bloom)).toLowerCase()} in the DMV right now!\n\nBest spots: ${bloom.loc.slice(0,3).join(', ')}\nPeak: ${bloom.wk}\n\n🌿 isfarbaset.github.io/dmv-blooms`;
+  if(cardEl&&typeof html2canvas==='function'){
+    try{const canvas=await html2canvas(cardEl,{backgroundColor:'#FAF7F2',useCORS:true,scale:2,logging:false});
+      const blob=await new Promise(r=>canvas.toBlob(r,'image/png'));
+      if(blob&&navigator.canShare&&navigator.canShare({files:[new File([blob],'bloom.png',{type:'image/png'})]})){
+        await navigator.share({title:`${bloom.n} — DMV Blooms`,text,files:[new File([blob],`${bloom.n.toLowerCase().replace(/\s+/g,'-')}-dmv-blooms.png`,{type:'image/png'})]});return;
+      }
+    }catch(e){}
   }
+  if(navigator.share){navigator.share({title:`${bloom.n} — DMV Blooms`,text}).catch(()=>{});}
+  else{navigator.clipboard.writeText(text).then(()=>showToast('Link copied!'));}
 }
 
-// RENDER: RECO
-function renderReco(){
-  const dow=NOW.getDay();
-  const sat=new Date(NOW);sat.setDate(NOW.getDate()+((6-dow+7)%7||(dow===6?0:7)));
-  const sun=new Date(sat);sun.setDate(sat.getDate()+1);
-  const isWknd=dow===0||dow===6;
-  const label=isWknd?"This weekend":`${sat.toLocaleDateString('en-US',{month:'long',day:'numeric'})} – ${sun.toLocaleDateString('en-US',{month:'long',day:'numeric'})}`;
-
-  document.getElementById('reco-title').textContent=`Where to go ${isWknd?'this weekend':'next'}`;
-
+// MARQUEE
+function renderMarquee(){
   const active=BLOOMS.map(b=>({...b,st:status(b)})).filter(b=>['peak','blooming','ending'].includes(b.st));
-  document.getElementById('hero-count').textContent=`${active.length} flowers in bloom`;
+  const p=[...active.map(b=>`${b.e} ${b.n} — ${stLabel(b.st).toLowerCase()}`),'20 spots across DC, MD & VA','Updated for the season'];
+  if(CM>=2&&CM<=3)p.push('Cherry blossom season is here');
+  const d=[...p,...p];
+  document.getElementById('marquee').innerHTML=d.map(x=>`<span class="marquee-item">${x}<span class="sep">✦</span></span>`).join('');
+}
 
-  const picks=[];const used=new Set();
-  active.sort((a,b)=>{const o={peak:0,blooming:1,ending:2};return o[a.st]-o[b.st];})
-    .forEach(bl=>{
-      const l=LOCS.filter(x=>x.fl.includes(bl.n)&&!used.has(x.n));
-      if(l.length){used.add(l[0].n);picks.push({bl,loc:l[0]});}
-    });
-
-  function tip(s){return{peak:"Don't wait, peak bloom is fleeting",ending:"Last chance this year",blooming:"Looking beautiful right now"}[s]||"";}
-
-  document.getElementById('reco-container').innerHTML=`
-    <div class="reco-card">
-      <div class="reco-meta">
-        <h3>${label}</h3>
-        <span class="reco-date">${sat.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})}</span>
+// LIVE CAM
+function renderCam(){
+  const live=CM>=1&&CM<=4;
+  document.getElementById('cam-container').innerHTML=`
+    <div class="cam-grid">
+      <div class="cam-video">
+        ${live?`<iframe src="https://www.youtube-nocookie.com/embed/live_stream?channel=UCnAMTUGMjGwAzKHQMNF2R5Q&autoplay=1&mute=1" allow="autoplay;encrypted-media" allowfullscreen loading="lazy"></iframe>`:''}
+        <div class="cam-off" ${live?'style="display:none"':''}><span>🌸</span><p>Stream returns during cherry blossom season</p></div>
       </div>
-      <div class="reco-grid">
-        ${picks.slice(0,6).map(p=>`
-          <div class="reco-pick">
-            ${p.loc.img?`<img class="reco-pick-img" src="${p.loc.img}" alt="${p.loc.n}" loading="lazy" onerror="this.classList.add('broken')">`:''}
-            <div class="reco-pick-top">
-              <span class="reco-pick-name">${p.bl.e} ${p.bl.n}</span>
-              <span class="reco-pick-status ${stClass(p.bl.st)}">${stLabel(p.bl.st)}</span>
-            </div>
-            <div class="reco-pick-loc">📍 ${p.loc.n}</div>
-            <div class="reco-pick-desc">${p.loc.d}</div>
-            ${tip(p.bl.st)?`<div class="reco-pick-tip">${tip(p.bl.st)}</div>`:''}
-          </div>`).join('')}
+      <div class="cam-info">
+        <div class="cam-badge"><span class="live-dot"></span>${live?'Bloom season':'Off-season'}</div>
+        <h3>Tidal Basin<br><em>BloomCam</em></h3>
+        <p class="cam-desc">The National Park Service's cherry blossom cam. During peak bloom this is the most-watched webcam in the country.</p>
+        <div class="cam-links">
+          <a class="cam-link primary" href="https://www.nps.gov/subjects/cherryblossom/bloom-watch.htm" target="_blank">NPS Bloom Watch →</a>
+          <a class="cam-link" href="https://www.earthcam.com/usa/dc/washingtonmonument/" target="_blank">EarthCam DC →</a>
+          <a class="cam-link" href="https://www.google.com/maps/dir/?api=1&destination=38.8822,-77.0365" target="_blank">📍 Directions</a>
+        </div>
       </div>
-      <div class="reco-footer">Early mornings beat the crowds, especially at the Tidal Basin. Weekdays are even better if you can manage it.</div>
     </div>`;
 }
 
-// RENDER: NOW
+// RECO
+function renderReco(){
+  const dow=NOW.getDay();const sat=new Date(NOW);sat.setDate(NOW.getDate()+((6-dow+7)%7||(dow===6?0:7)));
+  const isWknd=dow===0||dow===6;
+  document.getElementById('reco-title').innerHTML=`Where to go <em>${isWknd?'this weekend':'next'}</em>`;
+  const active=BLOOMS.map(b=>({...b,st:status(b)})).filter(b=>['peak','blooming','ending'].includes(b.st));
+  document.getElementById('hero-count').textContent=`${active.length} flower${active.length!==1?'s':''} in bloom`;
+  const picks=[];const used=new Set();
+  active.sort((a,b)=>({peak:0,blooming:1,ending:2}[a.st]||9)-({peak:0,blooming:1,ending:2}[b.st]||9))
+    .forEach(bl=>{const l=LOCS.filter(x=>x.fl.includes(bl.n)&&!used.has(x.n));if(l.length){used.add(l[0].n);picks.push({bl,loc:l[0]});}});
+  const top=picks[0];
+  document.getElementById('reco-container').innerHTML=`
+    ${top?`<div class="reco-hero reveal">
+      <div class="reco-hero-img"><img src="${top.loc.img}" alt="${top.loc.n}" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="reco-hero-content">
+        <div class="reco-date">${sat.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</div>
+        <h3>${top.bl.e} <em>${top.bl.n}</em></h3>
+        <p style="font-size:0.88rem;color:var(--ink2);line-height:1.6;margin-bottom:1rem;">📍 ${top.loc.n} — ${top.loc.d}</p>
+        <span class="reco-pick-status ${stClass(top.bl.st)}" style="display:inline-block;">${stLabel(top.bl.st)}</span>
+      </div>
+    </div>`:''}
+    <div class="reco-picks reveal-stagger reveal">
+      ${picks.slice(1,7).map(p=>`
+        <div class="reco-pick">
+          <div class="reco-pick-thumb"><img src="${p.loc.img}" alt="${p.loc.n}" loading="lazy" onerror="this.parentElement.style.background='${p.bl.c}'"></div>
+          <div class="reco-pick-info">
+            <div class="reco-pick-name">${p.bl.e} ${p.bl.n}</div>
+            <div class="reco-pick-loc">📍 ${p.loc.n}</div>
+            <span class="reco-pick-status ${stClass(p.bl.st)}">${stLabel(p.bl.st)}</span>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+// NOW
 function renderNow(){
   const grid=document.getElementById('bloom-grid');
   const mn=NOW.toLocaleString('default',{month:'long'});
   document.getElementById('now-desc').textContent=`Everything flowering across the DMV this ${mn}, sorted by what's peaking first.`;
-
   const ord={peak:0,blooming:1,ending:2,upcoming:3,waiting:4};
   const sorted=[...BLOOMS].map(b=>({...b,st:status(b)})).sort((a,b)=>ord[a.st]-ord[b.st]);
-
   sorted.forEach((b,i)=>{
-    const card=document.createElement('div');card.className='bloom-card fi';
+    const fl=LOCS.find(l=>b.loc.includes(l.n));const img=fl?fl.img:'';
+    const card=document.createElement('div');card.className='bloom-card reveal';
     card.style.transitionDelay=(i*0.05)+'s';
+    card.setAttribute('data-bloom-idx',BLOOMS.indexOf(BLOOMS.find(x=>x.n===b.n)));
     card.innerHTML=`
-      <div class="card-top">
-        <div class="card-top-left">
-          <h3>${b.n}</h3>
-          <span class="card-time">${b.wk}</span>
-        </div>
-        <div class="card-emoji" style="background:${b.c}">${b.e}</div>
-      </div>
-      <div class="card-body">
+      ${img?`<div class="card-img"><img src="${img}" alt="${b.n}" loading="lazy" onerror="this.parentElement.outerHTML='<div class=card-gradient style=background:linear-gradient(135deg,${b.c},var(--cream));><span class=card-emoji-big>${b.e}</span></div>'"><div class="card-img-overlay"><span class="card-emoji">${b.e}</span><span class="card-st ${stClass(b.st)}">${stLabel(b.st)}</span></div></div>`:
+      `<div class="card-gradient" style="background:linear-gradient(135deg,${b.c},var(--cream));"><span class="card-emoji-big">${b.e}</span></div>`}
+      <div class="card-content">
+        <h3>${b.n}</h3>
+        <span class="card-time">${b.wk}</span>
         <p>${b.d}</p>
         <div class="card-tags">
           ${b.loc.slice(0,3).map(l=>locTag(l,false)).join('')}
@@ -611,137 +702,112 @@ function renderNow(){
           ${b.loc.slice(3).map(l=>locTag(l,true)).join('')}
         </div>
       </div>
-      <div class="card-bottom">
-        <span class="card-status ${stClass(b.st)}">${stLabel(b.st)}</span>
-        <button class="share-btn" onclick='shareBloom(BLOOMS[${BLOOMS.indexOf(BLOOMS.find(x=>x.n===b.n))}])'>${SHARE_ICON} Share</button>
+      <div class="card-footer">
+        <span class="reco-pick-status ${stClass(b.st)}" style="font-size:0.6rem;">${stLabel(b.st)}</span>
+        <button class="share-btn" onclick="shareBloom(BLOOMS[${BLOOMS.indexOf(BLOOMS.find(x=>x.n===b.n))}],this.closest('.bloom-card'))">${SHARE_ICON} Share</button>
       </div>`;
     grid.appendChild(card);
   });
 }
 
-// RENDER: CALENDAR
+// CALENDAR
 function renderCalendar(){
-  const t=document.getElementById('cal-table');
-  let h='<thead><tr><th></th>';
+  const t=document.getElementById('cal-table');let h='<thead><tr><th></th>';
   MO.forEach((m,i)=>{h+=`<th class="${i===CM?'now':''}">${m}</th>`;});
   h+='</tr></thead><tbody>';
-  BLOOMS.forEach(b=>{
-    h+=`<tr><td>${b.e} ${b.n}</td>`;
-    for(let m=0;m<12;m++){
-      if(b.pk.includes(m))h+=`<td><div class="bar pk">${b.e}</div></td>`;
-      else if(b.mo.includes(m))h+=`<td><div class="bar lo"></div></td>`;
-      else h+='<td></td>';
-    }
-    h+='</tr>';
-  });
+  BLOOMS.forEach(b=>{h+=`<tr><td>${b.e} ${b.n}</td>`;for(let m=0;m<12;m++){if(b.pk.includes(m))h+=`<td><div class="bar pk">${b.e}</div></td>`;else if(b.mo.includes(m))h+=`<td><div class="bar lo"></div></td>`;else h+='<td></td>';}h+='</tr>';});
   t.innerHTML=h+'</tbody>';
 }
 
-// RENDER: MAP
+// MAP
 let map;let markers=[];
 function renderMap(){
   map=L.map('leaflet-map',{zoomControl:true,scrollWheelZoom:true}).setView([38.92,-77.04],11);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    maxZoom:18,
-    attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  }).addTo(map);
-
-  const stColors={peak:'#E8EDE6',blooming:'#FEF9E7',ending:'#F9F0F1',upcoming:'#E8EEF5',waiting:'#EDEDED'};
-  const stTxt={peak:'#5F7A5E',blooming:'#8B7420',ending:'#9E5A62',upcoming:'#4A6B8A',waiting:'#888'};
-
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+  const stC={peak:'#E8EDE6',blooming:'#FEF9E7',ending:'#F9F0F1',upcoming:'#E8EEF5',waiting:'#EDEDED'};
+  const stT={peak:'#5F7A5E',blooming:'#8B7420',ending:'#9E5A62',upcoming:'#4A6B8A',waiting:'#888'};
   LOCS.forEach(loc=>{
-    const s=locStatus(loc);
-    const em=emoji(loc.fl[0]);
-    const icon=L.divIcon({
-      html:`<div class="bloom-marker" style="background:${loc.c}">${em}</div>`,
-      className:'',iconSize:[34,34],iconAnchor:[17,17],popupAnchor:[0,-20]
-    });
-    const mk=L.marker([loc.la,loc.ln],{icon}).addTo(map);
-    mk.region=loc.r;mk.locData=loc;
+    const s=locStatus(loc);const em=emoji(loc.fl[0]);
+    const icon=L.divIcon({html:`<div class="bloom-marker" style="background:${loc.c}">${em}</div>`,className:'',iconSize:[36,36],iconAnchor:[18,18],popupAnchor:[0,-22]});
+    const mk=L.marker([loc.la,loc.ln],{icon}).addTo(map);mk.region=loc.r;mk.locData=loc;
     const fl=loc.fl.map(f=>`${emoji(f)} ${f}`).join(' · ');
-    mk.bindPopup(`<div class="pop">${loc.img?`<img src="${loc.img}" alt="${loc.n}" style="width:100%;height:140px;object-fit:cover;display:block;border-radius:var(--radius) var(--radius) 0 0;margin:-1.25rem -1.5rem 1rem;width:calc(100% + 3rem);" loading="lazy" onerror="this.style.display='none'">`:''}<h4>${loc.n}</h4><div class="pop-flowers">${fl}</div><div class="pop-desc">${loc.d}</div><span class="pop-st" style="background:${stColors[s]};color:${stTxt[s]}">${stLabel(s)}</span></div>`,{maxWidth:280});
+    const dir=`https://www.google.com/maps/dir/?api=1&destination=${loc.la},${loc.ln}`;
+    mk.bindPopup(`<div class="pop">${loc.img?`<img src="${loc.img}" alt="${loc.n}" style="width:calc(100%+3rem);height:140px;object-fit:cover;display:block;border-radius:var(--r) var(--r) 0 0;margin:-1.25rem -1.5rem 1rem;" loading="lazy" onerror="this.style.display='none'">`:''}<h4>${loc.n}</h4><div class="pop-flowers">${fl}</div><div class="pop-desc">${loc.d}</div><span class="pop-st" style="background:${stC[s]};color:${stT[s]}">${stLabel(s)}</span><span class="pop-dir"><a href="${dir}" target="_blank">Get directions →</a></span></div>`,{maxWidth:280});
     markers.push(mk);
   });
-
   const bar=document.getElementById('map-bar');
-  bar.innerHTML=`
-    <button class="map-btn on" data-f="all">All</button>
-    <button class="map-btn" data-f="DC">DC</button>
-    <button class="map-btn" data-f="MD">Maryland</button>
-    <button class="map-btn" data-f="VA">Virginia</button>
-    <button class="map-btn" data-f="bloom">In bloom</button>`;
-  bar.addEventListener('click',e=>{
-    if(!e.target.classList.contains('map-btn'))return;
-    bar.querySelectorAll('.map-btn').forEach(b=>b.classList.remove('on'));
-    e.target.classList.add('on');
-    const f=e.target.dataset.f;const vis=[];
-    markers.forEach(m=>{
-      const s=locStatus(m.locData);
-      let show=f==='all'||(f==='bloom'?['peak','blooming','ending'].includes(s):m.region===f);
-      if(show){if(!map.hasLayer(m))map.addLayer(m);vis.push(m);}
-      else{if(map.hasLayer(m))map.removeLayer(m);}
-    });
-    if(vis.length)map.fitBounds(L.featureGroup(vis).getBounds().pad(0.12));
-  });
+  bar.innerHTML=`<button class="map-btn on" data-f="all">All</button><button class="map-btn" data-f="DC">DC</button><button class="map-btn" data-f="MD">Maryland</button><button class="map-btn" data-f="VA">Virginia</button><button class="map-btn" data-f="bloom">In bloom</button>`;
+  bar.addEventListener('click',e=>{if(!e.target.classList.contains('map-btn'))return;bar.querySelectorAll('.map-btn').forEach(b=>b.classList.remove('on'));e.target.classList.add('on');const f=e.target.dataset.f;const vis=[];markers.forEach(m=>{const s=locStatus(m.locData);let show=f==='all'||(f==='bloom'?['peak','blooming','ending'].includes(s):m.region===f);if(show){if(!map.hasLayer(m))map.addLayer(m);vis.push(m);}else{if(map.hasLayer(m))map.removeLayer(m);}});if(vis.length)map.fitBounds(L.featureGroup(vis).getBounds().pad(0.12));});
 }
 
-// NAV
+// NAV SCROLL
 function setupNav(){
-  const tabs=document.querySelectorAll('.nav-tab');
-  tabs.forEach(t=>{t.addEventListener('click',()=>{
-    tabs.forEach(x=>x.classList.remove('active'));t.classList.add('active');
-    document.getElementById(t.dataset.t)?.scrollIntoView({behavior:'smooth'});
-  });});
-  const ids=['reco','now','calendar','map-section'];
+  const nav=document.getElementById('nav');
+  const links=document.querySelectorAll('.nav-link');
+  const ids=['livecam','reco','now','calendar','map-section'];
   window.addEventListener('scroll',()=>{
-    const y=window.scrollY+100;let cur='reco';
+    nav.classList.toggle('scrolled',window.scrollY>60);
+    const y=window.scrollY+120;let cur='reco';
     ids.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop<=y)cur=id;});
-    tabs.forEach(t=>t.classList.toggle('active',t.dataset.t===cur));
+    links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+cur));
+  },{passive:true});
+}
+
+// REVEALS
+function setupReveal(){
+  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:0.05});
+  document.querySelectorAll('.reveal,.reveal-stagger').forEach(el=>obs.observe(el));
+}
+
+// TAG PREVIEWS
+function setupTagPreviews(){
+  document.addEventListener('mouseenter',e=>{const tag=e.target.closest('.tag-loc');if(!tag)return;const p=tag.querySelector('.tag-preview');if(!p)return;const r=tag.getBoundingClientRect();p.style.display='block';let left=r.left+r.width/2-130;let top=r.top-p.offsetHeight-8;if(top<8)top=r.bottom+8;if(left<8)left=8;if(left+260>window.innerWidth-8)left=window.innerWidth-268;p.style.left=left+'px';p.style.top=top+'px';},true);
+  document.addEventListener('mouseleave',e=>{const tag=e.target.closest('.tag-loc');if(!tag)return;const p=tag.querySelector('.tag-preview');if(p)p.style.display='none';},true);
+}
+
+// CUSTOM CURSOR
+function setupCursor(){
+  if(window.innerWidth<901)return;
+  const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+  (function loop(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+  document.querySelectorAll('a,button,.bloom-card,.reco-pick,.map-btn,.cam-link,.hero-cta,.reco-hero').forEach(el=>{
+    el.addEventListener('mouseenter',()=>ring.classList.add('hover'));
+    el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));
   });
 }
 
-// FADE
-function setupFade(){
-  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:0.08});
-  document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+// SCROLL PROGRESS
+function setupScrollProgress(){
+  const bar=document.getElementById('scroll-progress');
+  window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=h>0?(window.scrollY/h)*100+'%':'0%';},{passive:true});
 }
 
-// TAG PREVIEW POSITIONING
-function setupTagPreviews(){
-  document.addEventListener('mouseenter',e=>{
-    const tag=e.target.closest('.tag-loc');
-    if(!tag)return;
-    const preview=tag.querySelector('.tag-preview');
-    if(!preview)return;
-    const r=tag.getBoundingClientRect();
-    preview.style.display='block';
-    let left=r.left+r.width/2-120;
-    let top=r.top-preview.offsetHeight-8;
-    if(top<8){top=r.bottom+8;}
-    if(left<8)left=8;
-    if(left+240>window.innerWidth-8)left=window.innerWidth-248;
-    preview.style.left=left+'px';
-    preview.style.top=top+'px';
-  },true);
-  document.addEventListener('mouseleave',e=>{
-    const tag=e.target.closest('.tag-loc');
-    if(!tag)return;
-    const preview=tag.querySelector('.tag-preview');
-    if(preview)preview.style.display='none';
-  },true);
+// 3D CARD TILT
+function setupCardTilt(){
+  if(window.innerWidth<901)return;
+  document.querySelectorAll('.bloom-card').forEach(card=>{
+    const isOffset=card.matches(':nth-child(3n+2)');
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width;const y=(e.clientY-r.top)/r.height;
+      const base=isOffset?'translateY(3rem)':'';
+      card.style.transform=`${base} perspective(1000px) rotateX(${(y-.5)*-5}deg) rotateY(${(x-.5)*5}deg) translateY(-6px)`;
+      card.style.transition='transform 0.1s ease-out';
+    });
+    card.addEventListener('mouseleave',()=>{card.style.transform='';card.style.transition='transform 0.5s cubic-bezier(.22,1,.36,1),box-shadow 0.5s';});
+  });
 }
 
 // FAVICON
-function updateFavicon(){
-  const peak=BLOOMS.find(b=>status(b)==='peak');
-  const blooming=BLOOMS.find(b=>status(b)==='blooming');
-  const em=(peak||blooming||{e:'🌸'}).e;
-  document.getElementById('favicon').href=`data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>${em}</text></svg>`;
-}
+function updateFavicon(){const p=BLOOMS.find(b=>status(b)==='peak');const bl=BLOOMS.find(b=>status(b)==='blooming');const em=(p||bl||{e:'🌸'}).e;document.getElementById('favicon').href=`data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>${em}</text></svg>`;}
 
 // INIT
 document.addEventListener('DOMContentLoaded',()=>{
-  renderReco();renderNow();renderCalendar();renderMap();setupNav();setupFade();setupTagPreviews();updateFavicon();
+  renderMarquee();renderCam();renderReco();renderNow();renderCalendar();renderMap();
+  setupNav();setupReveal();setupTagPreviews();updateFavicon();setupScrollProgress();
+  setupCursor();
+  requestAnimationFrame(()=>setupCardTilt());
 });
 </script>
 </body>
