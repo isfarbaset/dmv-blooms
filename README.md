@@ -1,49 +1,36 @@
-# DMV Bl🌸🌸ms
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-**A seasonal field guide to the flowers of DC, Maryland & Virginia.**
+## Getting Started
 
-Live site: [isfarbaset.github.io/dmv-blooms](https://isfarbaset.github.io/dmv-blooms)
+First, run the development server:
 
-![DMV Blooms](https://img.shields.io/badge/status-live-5F7A5E)
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
----
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## What is this?
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-I built DMV Blooms to help people figure out what's flowering right now in the DC/Maryland/Virginia area and where to go see it. No apps to install, no accounts to create. Just open the site and go chase some blooms.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-### What you get
+## Learn More
 
-- **This Weekend's Picks** - where to go this weekend based on what's peaking right now
-- **Blooming Now** - live status for 12 flowers across the DMV, with photos and location tips
-- **Bloom Calendar** - a full-year view so you can plan ahead
-- **Interactive Map** - 20 spots across DC, MD, and VA with filters by region and bloom status
-- **Share** - send any bloom's status and best spots to a friend
+To learn more about Next.js, take a look at the following resources:
 
-### Flowers tracked
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Cherry Blossoms · Magnolias · Tulips · Bluebells · Azaleas · Wisteria · Lilacs · Roses · Hydrangeas · Lavender · Lotus & Water Lilies · Sunflowers
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-### Locations
+## Deploy on Vercel
 
-Tidal Basin · National Arboretum · Enid Haupt Garden · Dumbarton Oaks · Kenwood · Brookside Gardens · Burnside Farms · Bull Run Regional Park · Riverbend Park · Franciscan Monastery · Kenilworth Aquatic Gardens · McKee-Beshers WMA · Netherlands Carillon · Georgetown Streets · National Cathedral · U.S. Botanic Garden · Hains Point · Floral Library · Congressional Cemetery · Lady Bird Johnson Park
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
----
-
-## Copyright
-
-DMV Blooms' code is made available to the public for transparency. Anyone may privately use and modify the source code, but cannot republish or redistribute the site, its design, or its content as their own. Don't clone this and put your name on it.
-
-## Contributing
-
-Contributions are wholeheartedly welcome. I hope that in continuously improving this project, the internal reward is shared between contributors. Found a great bloom spot? Know a flower we should add? Open an issue or submit a PR. Note that PRs are up for discussion before merging and are not guaranteed to be incorporated.
-
----
-
-## License
-
-Copyright © 2026 Isfar Baset. All rights reserved.
-
----
-
-*Made for the DMV flower-chasing community.*
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
