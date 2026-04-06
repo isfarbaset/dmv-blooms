@@ -233,7 +233,11 @@ body::before{
 }
 .tag-more{cursor:pointer;transition:background 0.2s,border-color 0.2s;}
 .tag-more:hover{background:var(--sage-light);border-color:var(--sage);color:var(--sage);}
-.tag-loc{cursor:default;}
+.tag-loc{
+  cursor:pointer;text-decoration:none;color:var(--ink-light);
+  transition:background 0.2s,border-color 0.2s,color 0.2s;
+}
+.tag-loc:hover{background:var(--sage-light);border-color:var(--sage);color:var(--sage);}
 .tag-preview{
   display:none;position:fixed;z-index:10000;
   width:240px;border-radius:var(--radius-sm);overflow:hidden;
@@ -511,12 +515,18 @@ function locStatus(loc){
 }
 
 // LOC TAG WITH PHOTO PREVIEW
+function mapsUrl(loc){
+  return `https://www.google.com/maps/dir/?api=1&destination=${loc.la},${loc.ln}`;
+}
 function locTag(locName,hidden){
   const loc=LOCS.find(x=>x.n===locName||locName.startsWith(x.n));
   const cls=hidden?'tag tag-loc tag-hidden':'tag tag-loc';
   const style=hidden?' style="display:none"':'';
   if(loc&&loc.img){
-    return `<span class="${cls}"${style}>${locName}<span class="tag-preview"><img src="${loc.img}" alt="${loc.n}" loading="lazy" onerror="this.classList.add('broken')"><div class="tag-preview-info"><div class="tag-preview-name">${loc.n}</div>${loc.d}</div></span></span>`;
+    return `<a href="${mapsUrl(loc)}" target="_blank" rel="noopener noreferrer" class="${cls}"${style}>📍 ${locName}<span class="tag-preview"><img src="${loc.img}" alt="${loc.n}" loading="lazy" onerror="this.classList.add('broken')"><div class="tag-preview-info"><div class="tag-preview-name">${loc.n}</div>${loc.d}<div style="margin-top:4px;color:var(--sage);font-weight:500;">Click for directions →</div></div></span></a>`;
+  }
+  if(loc){
+    return `<a href="${mapsUrl(loc)}" target="_blank" rel="noopener noreferrer" class="${cls}"${style}>📍 ${locName}</a>`;
   }
   return `<span class="${hidden?'tag tag-hidden':'tag'}"${style}>${locName}</span>`;
 }
@@ -574,7 +584,7 @@ function renderReco(){
               <span class="reco-pick-name">${p.bl.e} ${p.bl.n}</span>
               <span class="reco-pick-status ${stClass(p.bl.st)}">${stLabel(p.bl.st)}</span>
             </div>
-            <div class="reco-pick-loc">📍 ${p.loc.n}</div>
+            <div class="reco-pick-loc"><a href="${mapsUrl(p.loc)}" target="_blank" rel="noopener noreferrer" style="color:var(--sage);text-decoration:none;">📍 ${p.loc.n} <span style="font-size:0.72rem;opacity:0.7;">→ directions</span></a></div>
             <div class="reco-pick-desc">${p.loc.d}</div>
             ${tip(p.bl.st)?`<div class="reco-pick-tip">${tip(p.bl.st)}</div>`:''}
           </div>`).join('')}
@@ -659,7 +669,7 @@ function renderMap(){
     const mk=L.marker([loc.la,loc.ln],{icon}).addTo(map);
     mk.region=loc.r;mk.locData=loc;
     const fl=loc.fl.map(f=>`${emoji(f)} ${f}`).join(' · ');
-    mk.bindPopup(`<div class="pop">${loc.img?`<img src="${loc.img}" alt="${loc.n}" style="width:100%;height:140px;object-fit:cover;display:block;border-radius:var(--radius) var(--radius) 0 0;margin:-1.25rem -1.5rem 1rem;width:calc(100% + 3rem);" loading="lazy" onerror="this.style.display='none'">`:''}<h4>${loc.n}</h4><div class="pop-flowers">${fl}</div><div class="pop-desc">${loc.d}</div><span class="pop-st" style="background:${stColors[s]};color:${stTxt[s]}">${stLabel(s)}</span></div>`,{maxWidth:280});
+    mk.bindPopup(`<div class="pop">${loc.img?`<img src="${loc.img}" alt="${loc.n}" style="width:100%;height:140px;object-fit:cover;display:block;border-radius:var(--radius) var(--radius) 0 0;margin:-1.25rem -1.5rem 1rem;width:calc(100% + 3rem);" loading="lazy" onerror="this.style.display='none'">`:''}<h4>${loc.n}</h4><div class="pop-flowers">${fl}</div><div class="pop-desc">${loc.d}</div><span class="pop-st" style="background:${stColors[s]};color:${stTxt[s]}">${stLabel(s)}</span><a href="${mapsUrl(loc)}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:6px 14px;border-radius:100px;background:var(--sage);color:#fff;font-size:0.78rem;font-weight:500;text-decoration:none;">Get directions →</a></div>`,{maxWidth:280});
     markers.push(mk);
   });
 
@@ -707,9 +717,13 @@ function setupFade(){
 }
 
 // TAG PREVIEW POSITIONING
+function hideAllPreviews(){
+  document.querySelectorAll('.tag-preview').forEach(p=>p.style.display='none');
+}
 function setupTagPreviews(){
-  document.addEventListener('mouseenter',e=>{
+  document.addEventListener('mouseover',e=>{
     const tag=e.target.closest('.tag-loc');
+    hideAllPreviews();
     if(!tag)return;
     const preview=tag.querySelector('.tag-preview');
     if(!preview)return;
@@ -722,13 +736,15 @@ function setupTagPreviews(){
     if(left+240>window.innerWidth-8)left=window.innerWidth-248;
     preview.style.left=left+'px';
     preview.style.top=top+'px';
-  },true);
-  document.addEventListener('mouseleave',e=>{
+  });
+  document.addEventListener('mouseout',e=>{
     const tag=e.target.closest('.tag-loc');
     if(!tag)return;
+    if(e.relatedTarget&&tag.contains(e.relatedTarget))return;
     const preview=tag.querySelector('.tag-preview');
     if(preview)preview.style.display='none';
-  },true);
+  });
+  window.addEventListener('scroll',hideAllPreviews,{passive:true});
 }
 
 // FAVICON
