@@ -15,6 +15,7 @@ I built DMV Blooms to help people figure out what's flowering right now in the D
 ### What you get
 
 - **This Weekend's Picks** - where to go this weekend based on what's peaking right now
+- **Flower Festivals & Events** - real DMV events (Cherry Blossom Festival, Bluebell Festival, Burnside Tulips, Kenilworth Lotus Festival, and more), sorted by what's happening now
 - **Blooming Now** - live status for 12 flowers across the DMV, with photos and location tips
 - **Bloom Calendar** - a full-year view so you can plan ahead
 - **Interactive Map** - 20 spots across DC, MD, and VA with filters by region and bloom status

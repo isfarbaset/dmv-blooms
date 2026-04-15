@@ -3,8 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DMV Blooms - What's Flowering in DC, MD & VA</title>
-<meta name="description" content="A seasonal guide to the best flowers and bloom spots across the DC, Maryland and Virginia area.">
+<title>DMV Blooms — What's Flowering in DC, MD & VA</title>
+<meta name="description" content="A seasonal field guide to the best flowers, bloom spots, and flower festivals across DC, Maryland and Virginia. Updated live.">
+<meta name="author" content="Isfar Baset">
+<meta name="theme-color" content="#5F7A5E">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DMV Blooms">
+<meta property="og:title" content="DMV Blooms — What's Flowering in DC, MD & VA">
+<meta property="og:description" content="A live field guide to the flowers, bloom spots, and festivals of the DC, Maryland & Virginia area. No app, no account — just go chase some blooms.">
+<meta property="og:url" content="https://isfarbaset.github.io/dmv-blooms/">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Washington_C_D.C._Tidal_Basin_cherry_trees.jpg/1200px-Washington_C_D.C._Tidal_Basin_cherry_trees.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cherry blossoms at the Tidal Basin in Washington, DC">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DMV Blooms — What's Flowering in DC, MD & VA">
+<meta name="twitter:description" content="A live field guide to flowers, bloom spots, and festivals across DC, Maryland & Virginia.">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Washington_C_D.C._Tidal_Basin_cherry_trees.jpg/1200px-Washington_C_D.C._Tidal_Basin_cherry_trees.jpg">
+
+<link rel="canonical" href="https://isfarbaset.github.io/dmv-blooms/">
 <link id="favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🌸</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -99,6 +120,77 @@ body::before{
   position:absolute;bottom:2rem;
   font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
   color:var(--ink-faint);
+}
+
+/* Live hero highlight */
+.hero-live{
+  display:none;align-items:center;gap:10px;
+  padding:10px 20px;margin-bottom:1.75rem;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:100px;box-shadow:var(--shadow-sm);
+  font-family:var(--sans);font-size:0.88rem;color:var(--ink-light);
+  max-width:min(90vw,480px);
+}
+.hero-live.has-content{display:inline-flex;}
+.hero-live .hl-em{font-size:1.4rem;line-height:1;}
+.hero-live strong{color:var(--ink);font-weight:500;}
+.hero-live a{color:var(--sage);text-decoration:none;font-weight:500;margin-left:auto;white-space:nowrap;}
+.hero-live a:hover{color:var(--terracotta);}
+
+/* Stats strip */
+.stats-strip{
+  background:var(--parchment);border-bottom:1px solid var(--border);
+  padding:1rem 1.5rem;
+}
+.stats-inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;justify-content:center;align-items:center;gap:2rem;
+  flex-wrap:wrap;
+}
+.stat{display:flex;align-items:baseline;gap:6px;}
+.stat-num{
+  font-family:var(--serif);font-weight:500;font-size:1.4rem;color:var(--ink);
+  letter-spacing:-0.02em;
+}
+.stat-label{
+  font-family:var(--sans);font-size:0.78rem;color:var(--ink-light);
+  font-weight:400;
+}
+.stat-sep{color:var(--ink-faint);opacity:0.4;}
+@media(max-width:600px){
+  .stats-inner{gap:1rem;}
+  .stat-sep{display:none;}
+  .stat-num{font-size:1.15rem;}
+  .stat-label{font-size:0.72rem;}
+}
+
+/* Story section */
+.story-section{max-width:720px;}
+#story{scroll-margin-top:60px;}
+.story-body{
+  font-family:var(--serif);font-weight:300;
+  font-size:1.1rem;line-height:1.7;color:var(--ink);
+}
+.story-body p{margin-bottom:1.25rem;}
+.story-body p em{font-style:italic;color:var(--terracotta);}
+.story-sig{
+  margin-top:1.75rem;font-style:italic;color:var(--ink-light);font-size:1rem;
+}
+
+/* Near-me map button */
+.near-me-btn{
+  margin-left:auto;display:inline-flex;align-items:center;gap:5px;
+  padding:5px 14px;border-radius:100px;border:1px solid var(--sage);
+  background:var(--sage-light);color:var(--sage);
+  font-family:var(--sans);font-size:0.78rem;font-weight:500;cursor:pointer;
+  transition:all 0.2s;
+}
+.near-me-btn:hover{background:var(--sage);color:#fff;}
+.near-me-btn:disabled{opacity:0.6;cursor:progress;}
+.near-me-btn svg{width:13px;height:13px;}
+.near-me-marker{
+  width:18px;height:18px;border-radius:50%;background:#3b82f6;
+  border:3px solid #fff;box-shadow:0 0 0 8px rgba(59,130,246,0.22);
 }
 
 /* ===== NAV ===== */
@@ -275,6 +367,82 @@ img.broken{display:none!important;}
 }
 .share-toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 
+/* ===== EVENTS ===== */
+#events{scroll-margin-top:60px;}
+.events-bar{
+  display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.75rem;
+}
+.events-bar .map-btn{
+  padding:5px 12px;border-radius:100px;
+  border:1px solid var(--border);background:var(--white);
+  font-family:var(--sans);font-size:0.78rem;font-weight:400;
+  color:var(--ink-light);cursor:pointer;transition:all 0.2s;
+}
+.events-bar .map-btn:hover{border-color:var(--sage);color:var(--sage);}
+.events-bar .map-btn.on{background:var(--ink);color:var(--ivory);border-color:var(--ink);}
+.events-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem;
+}
+.event-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:1.75rem;display:flex;flex-direction:column;gap:0.75rem;
+  transition:box-shadow 0.3s,transform 0.3s,border-color 0.3s;
+  position:relative;overflow:hidden;
+}
+.event-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);border-color:var(--sage);}
+.event-card.is-past{opacity:0.55;}
+.event-card.is-live{border-color:var(--sage);}
+.event-card.is-live::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--sage);
+}
+.event-status{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:0.68rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;
+  padding:3px 10px;border-radius:100px;align-self:flex-start;
+}
+.event-status.live{background:var(--sage-light);color:var(--sage);}
+.event-status.live .dot{
+  width:6px;height:6px;border-radius:50%;background:var(--sage);
+  animation:pulse 2.5s ease-in-out infinite;
+}
+.event-status.soon{background:var(--terracotta-light);color:var(--terracotta);}
+.event-status.later{background:var(--parchment);color:var(--ink-light);}
+.event-status.past{background:var(--parchment);color:var(--ink-faint);}
+.event-name{
+  font-family:var(--serif);font-weight:500;font-size:1.25rem;
+  letter-spacing:-0.01em;line-height:1.25;
+}
+.event-dates{
+  font-family:var(--sans);font-size:0.82rem;color:var(--ink-light);font-weight:400;
+}
+.event-dates strong{color:var(--ink);font-weight:500;}
+.event-desc{font-size:0.88rem;color:var(--ink-light);line-height:1.6;flex-grow:1;}
+.event-meta{
+  display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;
+  font-size:0.78rem;color:var(--ink-light);
+  padding-top:0.75rem;border-top:1px solid var(--border);
+}
+.event-flower{color:var(--sage);font-weight:500;}
+.event-price{
+  font-size:0.7rem;font-weight:500;padding:2px 8px;border-radius:100px;
+  background:var(--parchment);color:var(--ink-light);text-transform:uppercase;letter-spacing:0.04em;
+}
+.event-price.free{background:var(--sage-light);color:var(--sage);}
+.event-links{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.25rem;}
+.event-link{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:0.78rem;font-weight:500;text-decoration:none;
+  padding:5px 12px;border-radius:100px;transition:all 0.2s;
+}
+.event-link.primary{background:var(--sage);color:#fff;}
+.event-link.primary:hover{background:var(--ink);}
+.event-link.secondary{color:var(--ink-light);border:1px solid var(--border);background:var(--white);}
+.event-link.secondary:hover{border-color:var(--sage);color:var(--sage);}
+.events-empty{
+  padding:2.5rem;text-align:center;border:1px dashed var(--border);border-radius:var(--radius);
+  font-family:var(--serif);font-style:italic;color:var(--ink-faint);
+}
+
 /* ===== CALENDAR ===== */
 #calendar{scroll-margin-top:60px;}
 .cal-wrap{
@@ -382,6 +550,7 @@ footer .f-sm{font-family:var(--sans);font-style:normal;font-size:0.75rem;margin-
   <div class="hero-badge"><span class="dot"></span> <span id="hero-count">Loading</span></div>
   <h1>DMV<br><em>Blooms</em></h1>
   <p class="hero-sub">A field guide to the flowers of DC, Maryland & Virginia, updated for the season so you always know where to go.</p>
+  <div class="hero-live fi" id="hero-live"></div>
   <a href="#reco" class="hero-cta">
     See this weekend's picks
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
@@ -389,12 +558,16 @@ footer .f-sm{font-family:var(--sans);font-style:normal;font-size:0.75rem;margin-
   <div class="hero-scroll">scroll to explore</div>
 </section>
 
+<!-- STATS STRIP -->
+<div class="stats-strip" id="stats-strip"></div>
+
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
     <div class="nav-logo">DMV <span>Blooms</span></div>
     <div class="nav-tabs">
       <button class="nav-tab active" data-t="reco">This Weekend</button>
+      <button class="nav-tab" data-t="events">Events</button>
       <button class="nav-tab" data-t="now">Blooming Now</button>
       <button class="nav-tab" data-t="calendar">Calendar</button>
       <button class="nav-tab" data-t="map-section">Map</button>
@@ -408,6 +581,15 @@ footer .f-sm{font-family:var(--sans);font-style:normal;font-size:0.75rem;margin-
   <h2 class="section-title fi" id="reco-title"></h2>
   <p class="section-desc fi">Our picks for the best bloom-chasing this weekend, based on what's peaking right now.</p>
   <div id="reco-container" class="fi"></div>
+</section>
+
+<!-- EVENTS -->
+<section class="section" id="events">
+  <div class="section-label fi">On the Calendar</div>
+  <h2 class="section-title fi">Flower festivals & events</h2>
+  <p class="section-desc fi">Real events across the DMV, from the Cherry Blossom Festival to backyard lavender U-picks. Happening now floats to the top.</p>
+  <div class="events-bar fi" id="events-bar"></div>
+  <div class="events-grid fi" id="events-grid"></div>
 </section>
 
 <!-- NOW -->
@@ -440,6 +622,18 @@ footer .f-sm{font-family:var(--sans);font-style:normal;font-size:0.75rem;margin-
   <div class="map-wrap fi">
     <div class="map-bar" id="map-bar"></div>
     <div id="leaflet-map"></div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="section story-section" id="story">
+  <div class="section-label fi">The Story</div>
+  <h2 class="section-title fi">Why this exists</h2>
+  <div class="story-body fi">
+    <p>Every spring I'd watch the same thing happen. Friends texting me asking when the cherry blossoms would peak. Coworkers arguing about whether the bluebells were still out. Tourists on the Tidal Basin a week too late. Locals missing Kenilworth's lotus season entirely.</p>
+    <p>Bloom information is scattered — buried in park service press releases, last year's blog posts, or whatever Google decides is relevant that morning. There's no one place that just tells you <em>what's blooming right now, where to go, and when it ends</em>.</p>
+    <p>So I built it. A living field guide that updates itself with the season, pairs every flower to the spots locals actually go, and surfaces the festivals worth planning around. No login. No paywall. No app to install. Open the page and go chase some blooms.</p>
+    <p class="story-sig">— Isfar</p>
   </div>
 </section>
 
@@ -493,6 +687,59 @@ const LOCS=[
   {n:"Congressional Cemetery",la:38.8794,ln:-76.9793,fl:["Cherry Blossoms"],d:"Historic and peaceful. Beautiful cherry trees, fewer crowds, dogs welcome on-leash.",r:"DC",c:"#FADADD",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Washington,_DC_-_Congressional_Cemetery_-_51092506869.jpg?width=640"},
   {n:"Lady Bird Johnson Park",la:38.8790,ln:-77.0490,fl:["Cherry Blossoms"],d:"Thousands of daffodils in early spring plus weeping cherries. Lincoln Memorial views across the river.",r:"VA",c:"#F5F0D6",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Daffodils_in_Lady_Bird_Johnson_Memorial_Park_-_2011.jpg?width=640"},
 ];
+
+// EVENTS — curated real flower festivals & public-land bloom windows across the DMV.
+// Dates are annual windows; update year prefix each season. (yyyy-mm-dd)
+const EVENTS=[
+  {n:"National Cherry Blossom Festival",st:"2026-03-20",en:"2026-04-13",loc:"Tidal Basin",fl:"Cherry Blossoms",r:"DC",free:true,d:"The DMV's signature spring celebration. Parade, kite festival, Blossom Kite Festival, and cultural events across four weeks along the Tidal Basin.",url:"https://nationalcherryblossomfestival.org/"},
+  {n:"Bluebell Festival",st:"2026-04-11",en:"2026-04-11",loc:"Riverbend Park",fl:"Bluebells",r:"VA",free:false,d:"Wildflower walks, live music, food trucks, and naturalist talks on one Saturday. Parking sells out early — reserve ahead.",url:"https://www.fairfaxcounty.gov/parks/riverbend"},
+  {n:"Festival of Spring",st:"2026-04-04",en:"2026-05-03",loc:"Burnside Farms",fl:"Tulips",r:"VA",free:false,d:"Two million tulips across 30 varieties in Nokesville. Pick-your-own bouquets, timed tickets, opens rain or shine.",url:"https://burnsidefarms.com/"},
+  {n:"Azalea Bloom Celebration",st:"2026-04-18",en:"2026-05-10",loc:"National Arboretum",fl:"Azaleas",r:"DC",free:true,d:"Mount Hamilton's hillside turns into waves of red, pink, purple and white. Self-guided. Free admission, weekday mornings are quietest.",url:"https://www.usna.usda.gov/"},
+  {n:"Wings of Fancy Butterfly Show",st:"2026-05-01",en:"2026-09-21",loc:"Brookside Gardens",fl:"Roses",r:"MD",free:false,d:"Live butterflies fluttering through summer blooms in the conservatory. Timed entry, great for kids.",url:"https://www.montgomeryparks.org/parks-and-trails/brookside-gardens/wings-of-fancy-live-butterfly-and-caterpillar-exhibit/"},
+  {n:"Rose Garden Peak",st:"2026-05-15",en:"2026-06-20",loc:"U.S. Botanic Garden",fl:"Roses",r:"DC",free:true,d:"The Botanic Garden's outdoor rose collection hits peak in late May. Free admission, weekday mornings are sublime.",url:"https://www.usbg.gov/"},
+  {n:"Lavender U-Pick Weekends",st:"2026-06-13",en:"2026-07-06",loc:"Seven Oaks Lavender Farm",fl:"Lavender",r:"VA",free:false,d:"Rolling fields of fragrant purple in Catlett. Cut your own bundles, grab a lavender lemonade, shop the farm store.",url:"https://sevenoakslavenderfarm.com/"},
+  {n:"Lotus & Water Lily Festival",st:"2026-07-18",en:"2026-07-19",loc:"Kenilworth Aquatic Gardens",fl:"Lotus & Water Lilies",r:"DC",free:true,d:"The only national park dedicated to water flowers celebrates its signature weekend. Ranger talks, yoga, kids' activities. Go before 9am for the best blooms.",url:"https://www.nps.gov/keaq/planyourvisit/lotus-and-water-lily-festival.htm"},
+  {n:"Sunflower Bloom",st:"2026-07-11",en:"2026-08-09",loc:"McKee-Beshers WMA",fl:"Sunflowers",r:"MD",free:true,d:"30+ acres of towering gold in Poolesville. No festival, no tickets — just the fields, dawn to dusk. Bring bug spray.",url:"https://dnr.maryland.gov/wildlife/Pages/publiclands/central/mckeebeshers.aspx"},
+  {n:"Cherry Blossom 10 Mile Run",st:"2026-04-05",en:"2026-04-05",loc:"Tidal Basin",fl:"Cherry Blossoms",r:"DC",free:false,d:"The 'Runner's Rite of Spring.' 17,000 runners loop the monuments under the blossoms. Lottery registration.",url:"https://www.cherryblossom.org/"},
+];
+
+// DATE HELPERS
+function parseDate(s){const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d);}
+function eventStatus(ev){
+  const st=parseDate(ev.st),en=parseDate(ev.en);
+  const today=new Date(NOW.getFullYear(),NOW.getMonth(),NOW.getDate());
+  if(today>en)return'past';
+  if(today>=st&&today<=en)return'live';
+  const days=Math.ceil((st-today)/(1000*60*60*24));
+  if(days<=14)return'soon';
+  return'later';
+}
+function daysUntil(ev){
+  const st=parseDate(ev.st);
+  const today=new Date(NOW.getFullYear(),NOW.getMonth(),NOW.getDate());
+  return Math.ceil((st-today)/(1000*60*60*24));
+}
+function daysLeft(ev){
+  const en=parseDate(ev.en);
+  const today=new Date(NOW.getFullYear(),NOW.getMonth(),NOW.getDate());
+  return Math.ceil((en-today)/(1000*60*60*24));
+}
+function fmtDate(d){return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});}
+function fmtDateRange(ev){
+  const st=parseDate(ev.st),en=parseDate(ev.en);
+  if(ev.st===ev.en)return st.toLocaleDateString('en-US',{weekday:'short',month:'long',day:'numeric'});
+  return `${fmtDate(st)} – ${fmtDate(en)}`;
+}
+function eventStatusLabel(ev){
+  const s=eventStatus(ev);
+  if(s==='live'){const dl=daysLeft(ev);return dl<=0?'Last day':dl===1?'1 day left':`${dl} days left`;}
+  if(s==='soon'){const du=daysUntil(ev);return du===0?'Today':du===1?'Tomorrow':`In ${du} days`;}
+  if(s==='past')return'Past';
+  const du=daysUntil(ev);
+  if(du<=60)return`In ${Math.round(du/7)} weeks`;
+  const months=Math.round(du/30);
+  return`In ${months} month${months>1?'s':''}`;
+}
 
 // STATUS
 function status(b){
@@ -548,6 +795,41 @@ function shareBloom(bloom){
   }
 }
 
+// RENDER: HERO LIVE + STATS
+function renderHeroLive(){
+  const peaking=BLOOMS.filter(b=>status(b)==='peak');
+  const blooming=BLOOMS.filter(b=>status(b)==='blooming');
+  const featured=peaking[0]||blooming[0];
+  if(!featured)return;
+  const loc=LOCS.find(l=>l.fl.includes(featured.n));
+  const el=document.getElementById('hero-live');
+  const label=peaking.length?'Peaking right now':'Blooming right now';
+  el.innerHTML=`
+    <span class="hl-em">${featured.e}</span>
+    <span><strong>${label}:</strong> ${featured.n}${loc?` at ${loc.n}`:''}</span>
+    <a href="#reco">See all →</a>`;
+  el.classList.add('has-content');
+}
+
+function renderStats(){
+  const peaking=BLOOMS.filter(b=>status(b)==='peak').length;
+  const bloomingAll=BLOOMS.filter(b=>['peak','blooming','ending'].includes(status(b))).length;
+  const liveEvents=EVENTS.filter(e=>eventStatus(e)==='live').length;
+  const soonEvents=EVENTS.filter(e=>eventStatus(e)==='soon').length;
+  const thisMonth=liveEvents+soonEvents;
+  const strip=document.getElementById('stats-strip');
+  strip.innerHTML=`
+    <div class="stats-inner">
+      <div class="stat"><span class="stat-num">${bloomingAll}</span><span class="stat-label">blooming now</span></div>
+      <span class="stat-sep">·</span>
+      <div class="stat"><span class="stat-num">${peaking}</span><span class="stat-label">at peak</span></div>
+      <span class="stat-sep">·</span>
+      <div class="stat"><span class="stat-num">${thisMonth}</span><span class="stat-label">events this month</span></div>
+      <span class="stat-sep">·</span>
+      <div class="stat"><span class="stat-num">${LOCS.length}</span><span class="stat-label">spots tracked</span></div>
+    </div>`;
+}
+
 // RENDER: RECO
 function renderReco(){
   const dow=NOW.getDay();
@@ -591,6 +873,68 @@ function renderReco(){
       </div>
       <div class="reco-footer">Early mornings beat the crowds, especially at the Tidal Basin. Weekdays are even better if you can manage it.</div>
     </div>`;
+}
+
+// RENDER: EVENTS
+let eventsFilter='upcoming';
+function renderEvents(){
+  const bar=document.getElementById('events-bar');
+  bar.innerHTML=`
+    <button class="map-btn ${eventsFilter==='upcoming'?'on':''}" data-ef="upcoming">Upcoming</button>
+    <button class="map-btn ${eventsFilter==='live'?'on':''}" data-ef="live">Happening now</button>
+    <button class="map-btn ${eventsFilter==='DC'?'on':''}" data-ef="DC">DC</button>
+    <button class="map-btn ${eventsFilter==='MD'?'on':''}" data-ef="MD">Maryland</button>
+    <button class="map-btn ${eventsFilter==='VA'?'on':''}" data-ef="VA">Virginia</button>
+    <button class="map-btn ${eventsFilter==='all'?'on':''}" data-ef="all">All year</button>`;
+
+  const grid=document.getElementById('events-grid');
+  const stOrder={live:0,soon:1,later:2,past:3};
+  let list=EVENTS.map(e=>({...e,s:eventStatus(e)}));
+
+  if(eventsFilter==='upcoming')list=list.filter(e=>e.s!=='past');
+  else if(eventsFilter==='live')list=list.filter(e=>e.s==='live');
+  else if(['DC','MD','VA'].includes(eventsFilter))list=list.filter(e=>e.r===eventsFilter&&e.s!=='past');
+
+  list.sort((a,b)=>{
+    if(stOrder[a.s]!==stOrder[b.s])return stOrder[a.s]-stOrder[b.s];
+    return parseDate(a.st)-parseDate(b.st);
+  });
+
+  if(!list.length){
+    grid.innerHTML=`<div class="events-empty">Nothing in this view right now — try another filter.</div>`;
+    return;
+  }
+
+  grid.innerHTML=list.map(e=>{
+    const loc=LOCS.find(x=>x.n===e.loc);
+    const em=emoji(e.fl);
+    const stCls=e.s;
+    const stLabel=eventStatusLabel(e);
+    const liveDot=e.s==='live'?'<span class="dot"></span>':'';
+    return `
+      <div class="event-card ${e.s==='past'?'is-past':''} ${e.s==='live'?'is-live':''}">
+        <span class="event-status ${stCls}">${liveDot}${stLabel}</span>
+        <div class="event-name">${em} ${e.n}</div>
+        <div class="event-dates"><strong>${fmtDateRange(e)}</strong></div>
+        <div class="event-desc">${e.d}</div>
+        <div class="event-meta">
+          <span class="event-flower">${e.fl}</span>
+          <span>·</span>
+          <span>📍 ${e.loc}</span>
+          <span class="event-price ${e.free?'free':''}">${e.free?'Free':'Ticketed'}</span>
+        </div>
+        <div class="event-links">
+          <a class="event-link primary" href="${e.url}" target="_blank" rel="noopener noreferrer">Event info →</a>
+          ${loc?`<a class="event-link secondary" href="${mapsUrl(loc)}" target="_blank" rel="noopener noreferrer">Directions</a>`:''}
+        </div>
+      </div>`;
+  }).join('');
+
+  bar.onclick=ev=>{
+    if(!ev.target.classList.contains('map-btn'))return;
+    eventsFilter=ev.target.dataset.ef;
+    renderEvents();
+  };
 }
 
 // RENDER: NOW
@@ -679,8 +1023,13 @@ function renderMap(){
     <button class="map-btn" data-f="DC">DC</button>
     <button class="map-btn" data-f="MD">Maryland</button>
     <button class="map-btn" data-f="VA">Virginia</button>
-    <button class="map-btn" data-f="bloom">In bloom</button>`;
+    <button class="map-btn" data-f="bloom">In bloom</button>
+    <button class="near-me-btn" id="near-me">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+      Near me
+    </button>`;
   bar.addEventListener('click',e=>{
+    if(e.target.closest('#near-me'))return;
     if(!e.target.classList.contains('map-btn'))return;
     bar.querySelectorAll('.map-btn').forEach(b=>b.classList.remove('on'));
     e.target.classList.add('on');
@@ -693,6 +1042,54 @@ function renderMap(){
     });
     if(vis.length)map.fitBounds(L.featureGroup(vis).getBounds().pad(0.12));
   });
+
+  document.getElementById('near-me').addEventListener('click',findNearMe);
+}
+
+// NEAR ME
+let youMarker=null;
+function haversine(la1,ln1,la2,ln2){
+  const toR=d=>d*Math.PI/180;
+  const dLa=toR(la2-la1),dLn=toR(ln2-ln1);
+  const a=Math.sin(dLa/2)**2+Math.cos(toR(la1))*Math.cos(toR(la2))*Math.sin(dLn/2)**2;
+  return 2*3959*Math.asin(Math.sqrt(a));
+}
+function findNearMe(){
+  const btn=document.getElementById('near-me');
+  if(!navigator.geolocation){
+    btn.textContent='Location not supported';return;
+  }
+  btn.disabled=true;const originalHTML=btn.innerHTML;btn.textContent='Finding you…';
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const {latitude:la,longitude:ln}=pos.coords;
+    if(youMarker)map.removeLayer(youMarker);
+    youMarker=L.marker([la,ln],{icon:L.divIcon({html:'<div class="near-me-marker"></div>',className:'',iconSize:[18,18],iconAnchor:[9,9]})}).addTo(map);
+    youMarker.bindPopup('<div class="pop"><h4>You are here</h4></div>');
+
+    const ranked=LOCS.map(loc=>({loc,d:haversine(la,ln,loc.la,loc.ln),s:locStatus(loc)}))
+      .filter(x=>['peak','blooming','ending'].includes(x.s))
+      .sort((a,b)=>a.d-b.d).slice(0,3);
+
+    markers.forEach(m=>{if(!map.hasLayer(m))map.addLayer(m);});
+
+    if(ranked.length){
+      const group=L.featureGroup([youMarker,...ranked.map(r=>markers.find(m=>m.locData.n===r.loc.n))].filter(Boolean));
+      map.fitBounds(group.getBounds().pad(0.2));
+      const nearest=ranked[0];
+      const nm=markers.find(m=>m.locData.n===nearest.loc.n);
+      if(nm)nm.openPopup();
+      btn.innerHTML=`📍 Nearest: ${nearest.loc.n} (${nearest.d.toFixed(1)} mi)`;
+    } else {
+      map.setView([la,ln],11);
+      btn.textContent='No blooms currently active nearby';
+    }
+    btn.disabled=false;
+    setTimeout(()=>{btn.innerHTML=originalHTML;},6000);
+  },err=>{
+    btn.disabled=false;
+    btn.textContent=err.code===1?'Location denied':'Could not get location';
+    setTimeout(()=>{btn.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg> Near me`;},3000);
+  },{enableHighAccuracy:false,timeout:8000});
 }
 
 // NAV
@@ -702,7 +1099,7 @@ function setupNav(){
     tabs.forEach(x=>x.classList.remove('active'));t.classList.add('active');
     document.getElementById(t.dataset.t)?.scrollIntoView({behavior:'smooth'});
   });});
-  const ids=['reco','now','calendar','map-section'];
+  const ids=['reco','events','now','calendar','map-section'];
   window.addEventListener('scroll',()=>{
     const y=window.scrollY+100;let cur='reco';
     ids.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop<=y)cur=id;});
@@ -757,7 +1154,7 @@ function updateFavicon(){
 
 // INIT
 document.addEventListener('DOMContentLoaded',()=>{
-  renderReco();renderNow();renderCalendar();renderMap();setupNav();setupFade();setupTagPreviews();updateFavicon();
+  renderHeroLive();renderStats();renderReco();renderEvents();renderNow();renderCalendar();renderMap();setupNav();setupFade();setupTagPreviews();updateFavicon();
 });
 </script>
 </body>
