@@ -18,7 +18,7 @@ I built DMV Blooms to help people figure out what's flowering right now in the D
 - **Flower Festivals & Events** - real DMV events (Cherry Blossom Festival, Bluebell Festival, Burnside Tulips, Kenilworth Lotus Festival, and more), sorted by what's happening now
 - **Blooming Now** - live status for 12 flowers across the DMV, with photos and location tips
 - **Bloom Calendar** - a full-year view so you can plan ahead
-- **Interactive Map** - 20 spots across DC, MD, and VA with filters by region and bloom status
+- **Interactive Map** - 28 spots across DC, MD, and VA with filters by region and bloom status
 - **Share** - send any bloom's status and best spots to a friend
 
 ### Flowers tracked
@@ -27,7 +27,7 @@ Cherry Blossoms · Magnolias · Tulips · Bluebells · Azaleas · Wisteria · Li
 
 ### Locations
 
-Tidal Basin · National Arboretum · Enid Haupt Garden · Dumbarton Oaks · Kenwood · Brookside Gardens · Burnside Farms · Bull Run Regional Park · Riverbend Park · Franciscan Monastery · Kenilworth Aquatic Gardens · McKee-Beshers WMA · Netherlands Carillon · Georgetown Streets · National Cathedral · U.S. Botanic Garden · Hains Point · Floral Library · Congressional Cemetery · Lady Bird Johnson Park
+Tidal Basin · National Arboretum · Enid Haupt Garden · Dumbarton Oaks · Kenwood · Brookside Gardens · Burnside Farms · Bull Run Regional Park · Riverbend Park · Franciscan Monastery · Kenilworth Aquatic Gardens · McKee-Beshers WMA · Netherlands Carillon · Georgetown Streets · National Cathedral · U.S. Botanic Garden · Hains Point · Floral Library · Congressional Cemetery · Lady Bird Johnson Park · Seven Oaks Lavender Farm · Tudor Place · Rock Creek Park · Great Falls Park · C&O Canal · Hillwood Estate · Bon Air Rose Garden · Yards Park
 
 ---
 
