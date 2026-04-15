@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DMV Blooms — What's Flowering in DC, MD & VA</title>
+<title>DMV Blooms: What's Flowering in DC, MD & VA</title>
 <meta name="description" content="A seasonal field guide to the best flowers, bloom spots, and flower festivals across DC, Maryland and Virginia. Updated live.">
 <meta name="author" content="Isfar Baset">
 <meta name="theme-color" content="#5F7A5E">
@@ -11,8 +11,8 @@
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DMV Blooms">
-<meta property="og:title" content="DMV Blooms — What's Flowering in DC, MD & VA">
-<meta property="og:description" content="A live field guide to the flowers, bloom spots, and festivals of the DC, Maryland & Virginia area. No app, no account — just go chase some blooms.">
+<meta property="og:title" content="DMV Blooms: What's Flowering in DC, MD & VA">
+<meta property="og:description" content="A live field guide to the flowers, bloom spots, and festivals of the DC, Maryland & Virginia area. No app, no account, just go chase some blooms.">
 <meta property="og:url" content="https://isfarbaset.github.io/dmv-blooms/">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Washington_C_D.C._Tidal_Basin_cherry_trees.jpg/1200px-Washington_C_D.C._Tidal_Basin_cherry_trees.jpg">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="DMV Blooms — What's Flowering in DC, MD & VA">
+<meta name="twitter:title" content="DMV Blooms: What's Flowering in DC, MD & VA">
 <meta name="twitter:description" content="A live field guide to flowers, bloom spots, and festivals across DC, Maryland & Virginia.">
 <meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Washington_C_D.C._Tidal_Basin_cherry_trees.jpg/1200px-Washington_C_D.C._Tidal_Basin_cherry_trees.jpg">
 
@@ -630,10 +630,12 @@ footer .f-sm{font-family:var(--sans);font-style:normal;font-size:0.75rem;margin-
   <div class="section-label fi">The Story</div>
   <h2 class="section-title fi">Why this exists</h2>
   <div class="story-body fi">
-    <p>Every spring I'd watch the same thing happen. Friends texting me asking when the cherry blossoms would peak. Coworkers arguing about whether the bluebells were still out. Tourists on the Tidal Basin a week too late. Locals missing Kenilworth's lotus season entirely.</p>
-    <p>Bloom information is scattered — buried in park service press releases, last year's blog posts, or whatever Google decides is relevant that morning. There's no one place that just tells you <em>what's blooming right now, where to go, and when it ends</em>.</p>
-    <p>So I built it. A living field guide that updates itself with the season, pairs every flower to the spots locals actually go, and surfaces the festivals worth planning around. No login. No paywall. No app to install. Open the page and go chase some blooms.</p>
-    <p class="story-sig">— Isfar</p>
+    <p>Every year I'd get the same texts. "Are the cherry blossoms still out?" "Bluebells worth driving for?" "Did I miss the sunflowers?" And every year, at least a few people I know would show up to Tidal Basin a week too late, or skip Kenilworth's lotus season entirely, or find out about Burnside's tulip fields the day they closed.</p>
+    <p>The info is out there. It's just scattered across park service press releases, blog posts from 2021, and Reddit threads from three springs ago. There's no one place that just tells you <em>what's blooming right now, where to go, and when it ends</em>.</p>
+    <p>So I made one. And here's the thing: the DMV isn't just a spring town. The cherry blossoms and tulips get the headlines in March and April, but azaleas and wisteria take over in May, roses and hydrangeas carry June, lavender fields open for U-pick in July, Kenilworth's lotus peak in late July, McKee-Beshers sunflowers in August, and there's a quiet second wave into September if you know where to look. This site follows all of it.</p>
+    <p>No login. No paywall. No app to install. Just a page that updates itself with the season, points you toward the spots locals actually go, and flags the festivals worth planning around.</p>
+    <p>Go chase some blooms.</p>
+    <p class="story-sig">Isfar 🌸</p>
   </div>
 </section>
 
@@ -688,18 +690,18 @@ const LOCS=[
   {n:"Lady Bird Johnson Park",la:38.8790,ln:-77.0490,fl:["Cherry Blossoms"],d:"Thousands of daffodils in early spring plus weeping cherries. Lincoln Memorial views across the river.",r:"VA",c:"#F5F0D6",img:"https://commons.wikimedia.org/wiki/Special:FilePath/Daffodils_in_Lady_Bird_Johnson_Memorial_Park_-_2011.jpg?width=640"},
 ];
 
-// EVENTS — curated real flower festivals & public-land bloom windows across the DMV.
+// EVENTS: curated real flower festivals & public-land bloom windows across the DMV.
 // Dates are annual windows; update year prefix each season. (yyyy-mm-dd)
 const EVENTS=[
   {n:"National Cherry Blossom Festival",st:"2026-03-20",en:"2026-04-13",loc:"Tidal Basin",fl:"Cherry Blossoms",r:"DC",free:true,d:"The DMV's signature spring celebration. Parade, kite festival, Blossom Kite Festival, and cultural events across four weeks along the Tidal Basin.",url:"https://nationalcherryblossomfestival.org/"},
-  {n:"Bluebell Festival",st:"2026-04-11",en:"2026-04-11",loc:"Riverbend Park",fl:"Bluebells",r:"VA",free:false,d:"Wildflower walks, live music, food trucks, and naturalist talks on one Saturday. Parking sells out early — reserve ahead.",url:"https://www.fairfaxcounty.gov/parks/riverbend"},
+  {n:"Bluebell Festival",st:"2026-04-11",en:"2026-04-11",loc:"Riverbend Park",fl:"Bluebells",r:"VA",free:false,d:"Wildflower walks, live music, food trucks, and naturalist talks on one Saturday. Parking sells out early, reserve ahead.",url:"https://www.fairfaxcounty.gov/parks/riverbend"},
   {n:"Festival of Spring",st:"2026-04-04",en:"2026-05-03",loc:"Burnside Farms",fl:"Tulips",r:"VA",free:false,d:"Two million tulips across 30 varieties in Nokesville. Pick-your-own bouquets, timed tickets, opens rain or shine.",url:"https://burnsidefarms.com/"},
   {n:"Azalea Bloom Celebration",st:"2026-04-18",en:"2026-05-10",loc:"National Arboretum",fl:"Azaleas",r:"DC",free:true,d:"Mount Hamilton's hillside turns into waves of red, pink, purple and white. Self-guided. Free admission, weekday mornings are quietest.",url:"https://www.usna.usda.gov/"},
   {n:"Wings of Fancy Butterfly Show",st:"2026-05-01",en:"2026-09-21",loc:"Brookside Gardens",fl:"Roses",r:"MD",free:false,d:"Live butterflies fluttering through summer blooms in the conservatory. Timed entry, great for kids.",url:"https://www.montgomeryparks.org/parks-and-trails/brookside-gardens/wings-of-fancy-live-butterfly-and-caterpillar-exhibit/"},
   {n:"Rose Garden Peak",st:"2026-05-15",en:"2026-06-20",loc:"U.S. Botanic Garden",fl:"Roses",r:"DC",free:true,d:"The Botanic Garden's outdoor rose collection hits peak in late May. Free admission, weekday mornings are sublime.",url:"https://www.usbg.gov/"},
   {n:"Lavender U-Pick Weekends",st:"2026-06-13",en:"2026-07-06",loc:"Seven Oaks Lavender Farm",fl:"Lavender",r:"VA",free:false,d:"Rolling fields of fragrant purple in Catlett. Cut your own bundles, grab a lavender lemonade, shop the farm store.",url:"https://sevenoakslavenderfarm.com/"},
   {n:"Lotus & Water Lily Festival",st:"2026-07-18",en:"2026-07-19",loc:"Kenilworth Aquatic Gardens",fl:"Lotus & Water Lilies",r:"DC",free:true,d:"The only national park dedicated to water flowers celebrates its signature weekend. Ranger talks, yoga, kids' activities. Go before 9am for the best blooms.",url:"https://www.nps.gov/keaq/planyourvisit/lotus-and-water-lily-festival.htm"},
-  {n:"Sunflower Bloom",st:"2026-07-11",en:"2026-08-09",loc:"McKee-Beshers WMA",fl:"Sunflowers",r:"MD",free:true,d:"30+ acres of towering gold in Poolesville. No festival, no tickets — just the fields, dawn to dusk. Bring bug spray.",url:"https://dnr.maryland.gov/wildlife/Pages/publiclands/central/mckeebeshers.aspx"},
+  {n:"Sunflower Bloom",st:"2026-07-11",en:"2026-08-09",loc:"McKee-Beshers WMA",fl:"Sunflowers",r:"MD",free:true,d:"30+ acres of towering gold in Poolesville. No festival, no tickets, just the fields, dawn to dusk. Bring bug spray.",url:"https://dnr.maryland.gov/wildlife/Pages/publiclands/central/mckeebeshers.aspx"},
   {n:"Cherry Blossom 10 Mile Run",st:"2026-04-05",en:"2026-04-05",loc:"Tidal Basin",fl:"Cherry Blossoms",r:"DC",free:false,d:"The 'Runner's Rite of Spring.' 17,000 runners loop the monuments under the blossoms. Lottery registration.",url:"https://www.cherryblossom.org/"},
 ];
 
@@ -901,7 +903,7 @@ function renderEvents(){
   });
 
   if(!list.length){
-    grid.innerHTML=`<div class="events-empty">Nothing in this view right now — try another filter.</div>`;
+    grid.innerHTML=`<div class="events-empty">Nothing in this view right now. Try another filter.</div>`;
     return;
   }
 
